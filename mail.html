@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Generator</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+        }
+
+        button {
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 3px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            border-radius: 6px;
+        }
+
+        th {
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            padding: 6px;
+            border-radius: 6px;
+        }
+
+        td {
+            border: 3px solid #ddd;
+            border-radius: 6px;
+        }
+
+        h2 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2 style="padding-bottom: 80px;">Vendor Service Provider Confirmation Mail</h2>
+
+        <form id="emailForm">
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="feedId">Feed ID:</label>
+                    <input type="text" class="form-control" id="feedId" required>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="serviceName">Service Name:</label>
+                    <input type="text" class="form-control" id="serviceName" required>
+                </div>
+
+                <div class="form-group  col-md-6">
+                    <label for="vendorName">Vendor Name:</label>
+                    <input type="text" class="form-control" id="vendorName" required>
+                </div>
+
+                <div class="form-group  col-md-6">
+                    <label for="buyerDesignation">Buyer Designation:</label>
+                    <input type="text" class="form-control" id="buyerDesignation" required>
+                </div>
+
+                <div class="form-group  col-md-6">
+                    <label for="buyerDepartment">Buyer Department:</label>
+                    <input type="text" class="form-control" id="buyerDepartment" required>
+                </div>
+            </div>
+            <label for="claimsDetails">Claims Details:</label>
+            <table class="table" id="claimsDetailsTable">
+                <thead>
+                    <tr>
+                        <th>S.No</th>
+                        <th>Claims as per the Service Provider</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="claimRow">
+                        <td>1</td>
+                        <td>
+                            <table class="table">
+                                <tr>
+                                    <th>Work Order Number</th>
+                                    <th>Project Value</th>
+                                    <th>Project Start Date</th>
+                                    <th>Project End Date</th>
+                                </tr>
+                                <tr>
+                                    <td><input type="text" class="form-control workOrderNumber" required></td>
+                                    <td><input type="text" class="form-control projectValue" required></td>
+                                    <td><input type="text" class="form-control startDate" required></td>
+                                    <td><input type="text" class="form-control endDate" required></td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="buttons">
+                <button type="button" class="btn btn-success" onclick="addRow()">Add Row</button>
+                <button type="button" class="btn btn-primary" onclick="generateEmail()">Generate Mail</button>
+                <button type="button" class="btn btn-info" onclick="copyToClipboard()">Copy Mail</button>
+                 <button type="button" class="btn btn-info" onclick="copySubject()">Copy Subject</button>
+            </div>
+        </form>
+       <hr>
+
+        <h3>Email Preview:</h3>
+        <div id="emailPreview"></div>
+         <div id="emailSubject" style="visibility: none;"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+           function sendEmail() {
+            var emailPreview = document.getElementById('emailPreview').innerHTML;
+            window.location.href = 'mailto:jhalani.varun@gmail.com?subject=Email Subject&body=' + encodeURIComponent(emailPreview);
+        }
+
+        function addRow() {
+            var claimsDetailsTable = document.getElementById('claimsDetailsTable').getElementsByTagName('tbody')[0];
+            var newRow = claimsDetailsTable.insertRow();
+            var snCell = newRow.insertCell(0);
+            var claimsCell = newRow.insertCell(1);
+
+            var rowCount = claimsDetailsTable.rows.length;
+            snCell.innerHTML = rowCount;
+            claimsCell.innerHTML = `
+                <table>
+                    <tr>
+                        <td><input type="text" class="workOrderNumber" required></td>
+                        <td><input type="text" class="projectValue" required></td>
+                        <td><input type="text" class="startDate" required></td>
+                        <td><input type="text" class="endDate" required></td>
+
+                    </tr>
+                </table>
+            `;
+        }
+
+        function generateEmail() {
+            var vendorName = document.getElementById('vendorName').value;
+            var serviceName = document.getElementById('serviceName').value;
+            var buyerDesignation = document.getElementById('buyerDesignation').value;
+            var buyerDepartment = document.getElementById('buyerDepartment').value;
+            var feedId = document.getElementById('feedId').value;
+
+            // Combine buyer name and department with a comma
+            var buyerName = buyerDesignation+', '+buyerDepartment;
+
+            var claimsDetailsTable = document.getElementById('claimsDetailsTable');
+            var rows = claimsDetailsTable.getElementsByClassName('claimRow');
+            var claimsDetails = '';
+
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName('input');
+                var workOrderNumber = cells[0].value;
+                var projectValue = cells[1].value;
+                var startDate = cells[2].value;
+                var endDate = cells[3].value;
+
+                claimsDetails += `<tr>
+                                    <td>${i + 1}</td>
+                                    <td>${workOrderNumber}</td>
+                                    <td>${projectValue}</td>
+                                    <td>${startDate}</td>
+                                    <td>${endDate}</td>
+                                </tr>`;
+            }
+            var subject = 'To seek confirmation regarding ${vendorName} registering as a service provider on the GeM portal.';
+            var emailTemplate = `Dear Sir/Ma’am,<br>
+
+Greetings from GeM!<br>
+<br>
+This is to seek confirmation regarding ${vendorName} registering as a service provider on the GeM portal. The seller claims to have provided the following:<br>
+Service Name: ${serviceName}<br>
+Buyer Name: ${buyerName}<br>
+<br>
+Below are the details shared by the service provider (feed ID: ${feedId}) on the GeM portal for further verification.<br>
+<table style="border: 1px solid black; border-collapse: collapse;">
+<tr>
+    <th rowspan="2">S.No.</th>
+    <th colspan="4">Claims as per the Service Provider</th>
+    <th colspan="2">To be filled by the recipient department</th>
+</tr>
+<tr>
+<th>Work Order Number</th>
+<th>Project Value</th>
+<th>Project Start Date</th>
+<th>Project End Date</th>
+<th>Confirmation (Y/N)</th>
+<th>Remarks(If any)</th>
+</tr>
+<tr>
+<td>${i}.</td>
+<td>${workOrderNumber}</td>
+<td>${projectValue}</td>
+<td>${startDate}</td>
+<td>${endDate}</td>
+<td></td>
+<td></td>
+</tr>
+
+
+</table>
+ <br>
+<br>
+Note: The completion document/work order/relevant documents (the document uploaded by the service provider) has been attached for your reference. Please revert to the same mail in Yes/No if credentials mentioned above are correct as per your records.<br>
+<br>
+In this regard, we request you to please confirm whether the document submitted by the service provider is true and correct or not. The document uploaded by the service provider has been attached for your reference. Request you to please reply to the mail at the earliest of your convenience or within the next 4 days. In case of any query, please contact the undersigned.<br>
+<br>
+Also, please be informed that the GeM is a trust-based portal and therefore, it is imminent to verify the documents submitted by the service providers from the concerned Buyer department, otherwise, it may lead to possible forgery at the GeM portal. Considering the gravity of the situation, we request you to please take this on an urgent basis.<br>
+<br>
+Thanking You,<br>
+Ganesh K Ingole<br>
+Contact: 8600017722<br>
+Government e-Marketplace (GeM)<br>
+Ministry of Commerce & Industry`;
+
+            document.getElementById('emailPreview').innerHTML = emailTemplate;
+            document.getElementById('emailSubject').innerHTML = `To seek confirmation regarding ${vendorName} registering as a service provider on the GeM portal.`;
+            
+        }
+
+        function copyToClipboard() {
+            var emailPreview = document.getElementById('emailPreview');
+            var range = document.createRange();
+            range.selectNode(emailPreview);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            alert('Email copied to clipboard!');
+        }
+
+   function copySubject() {
+            var emailSub = document.getElementById('emailSubject');
+            var range = document.createRange();
+            range.selectNode(emailSub);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            alert('subject copied to clipboard!');
+        }
+
+        document.addEventListener('contextmenu', function (e) {
+          e.preventDefault();
+        });
+  
+    </script>
+</body>
+</html>
