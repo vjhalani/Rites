@@ -100,32 +100,23 @@
                 </div>
             </div>
             <label for="claimsDetails">Claims Details:</label>
-            <table class="table" id="claimsDetailsTable" style="        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */">
+            <table class="table" id="claimsDetailsTable" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */">
                 <thead>
                     <tr>
                         <th>S.No</th>
-                        <th>Claims as per the Service Provider</th>
+                        <th>Work Order Number</th>
+                        <th>Project Value</th>
+                        <th>Project Start Date</th>
+                        <th>Project End Date</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="claimRow">
                         <td>1</td>
-                        <td>
-                            <table class="table">
-                                <tr>
-                                    <th>Work Order Number</th>
-                                    <th>Project Value</th>
-                                    <th>Project Start Date</th>
-                                    <th>Project End Date</th>
-                                </tr>
-                                <tr>
-                                    <td><input type="text" class="form-control workOrderNumber" required></td>
-                                    <td><input type="text" class="form-control projectValue" required></td>
-                                    <td><input type="text" class="form-control startDate" required></td>
-                                    <td><input type="text" class="form-control endDate" required></td>
-                                </tr>
-                            </table>
-                        </td>
+                        <td><input type="text" class="form-control workOrderNumber" required></td>
+                        <td><input type="text" class="form-control projectValue" required></td>
+                        <td><input type="text" class="form-control startDate" required></td>
+                        <td><input type="text" class="form-control endDate" required></td>
                     </tr>
                 </tbody>
             </table>
@@ -154,23 +145,22 @@
 
         function addRow() {
             var claimsDetailsTable = document.getElementById('claimsDetailsTable').getElementsByTagName('tbody')[0];
+
+            // Create a new row
             var newRow = claimsDetailsTable.insertRow();
-            var snCell = newRow.insertCell(0);
-            var claimsCell = newRow.insertCell(1);
 
-            var rowCount = claimsDetailsTable.rows.length;
-            snCell.innerHTML = rowCount;
-            claimsCell.innerHTML = `
-                <table>
-                    <tr>
-                        <td><input type="text" class="workOrderNumber" required></td>
-                        <td><input type="text" class="projectValue" required></td>
-                        <td><input type="text" class="startDate" required></td>
-                        <td><input type="text" class="endDate" required></td>
+            // Add cells to the new row
+            var cells = [];
+            for (var i = 0; i < 5; i++) {
+                cells[i] = newRow.insertCell(i);
+            }
 
-                    </tr>
-                </table>
-            `;
+            // Set cell content and structure
+            cells[0].innerHTML = claimsDetailsTable.rows.length; // S.No
+            cells[1].innerHTML = '<input type="text" class="form-control workOrderNumber" required>';
+            cells[2].innerHTML = '<input type="text" class="form-control projectValue" required>';
+            cells[3].innerHTML = '<input type="text" class="form-control startDate" required>';
+            cells[4].innerHTML = '<input type="text" class="form-control endDate" required>';
         }
 
         function generateEmail() {
