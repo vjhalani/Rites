@@ -8,15 +8,16 @@
     <!-- Add Bootstrap CSS link -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        /* Common styles for both light and dark modes */
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
+            transition: background-color 0.3s ease;
         }
 
         label {
             display: block;
             margin-bottom: 5px;
-            #font-weight: bold;
         }
 
         input,
@@ -25,7 +26,7 @@
             padding: 8px;
             margin-bottom: 15px;
             box-sizing: border-box;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         button {
@@ -61,13 +62,13 @@
         }
 
         h2 {
-            text-align: left; /* Align to the left */
-            margin-bottom: 20px; /* Add margin for spacing */
+            text-align: left;
+            margin-bottom: 20px;
         }
 
         .vsp-links {
-            text-align: right; /* Align to the right */
-            margin-top: 20px; /* Add margin for spacing */
+            text-align: right;
+            margin-top: 20px;
         }
 
         /* Styles for the dropdown */
@@ -80,7 +81,7 @@
             display: none;
             position: absolute;
             background-color: #f9f9f9;
-            width: 100%; /* Full width for mobile */
+            width: 100%;
             box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
             z-index: 1;
             text-align: left;
@@ -100,34 +101,127 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        body.dark-mode label {
+            color: white;
+        }
+
+        body.dark-mode input,
+        body.dark-mode textarea {
+            background-color: #303030;
+            color: white;
+        }
+
+        body.dark-mode th,
+        body.dark-mode td {
+            border: 3px solid #555;
+            background-color: #303030;
+            color: white;
+        }
+
+        body.dark-mode h2 {
+            color: white;
+        }
+
+        body.dark-mode .dropdown-content {
+            background-color: #303030;
+            color: white; 
+        }
+
+        body.dark-mode .dropdown-content a:hover {
+            background-color: #424242;
+            color: white; 
+        }
+    
+        .dark-mode-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .dark-mode-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .dark-mode-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 20px;
+            transition: .4s;
+        }
+
+        .dark-mode-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            border-radius: 50%;
+            transition: .4s;
+        }
+
+        input:checked+.dark-mode-slider {
+            background-color: #2196F3;
+        }
+
+        input:checked+.dark-mode-slider:before {
+            transform: translateX(20px);
+        }
+  
     </style>
 </head>
 
 <body>
+    <div id="popupOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); align-items: center; justify-content: center; z-index: 999;color: black;">
+        <div style="background: white; padding: 20px; border-radius: 5px;">
+            <p id="popupMessage"></p>
+        </div>
+    </div>
 
     <div class="container">
+
         <div class="row">
             <div class="col-md-6">
                 <h2>VSP Confirmation Mail</h2>
             </div>
             <div class="col-md-6 vsp-links">
                 <div class="dropdown">
+       <label class="dark-mode-switch">
+            <input type="checkbox" id="toggleDarkMode">
+            <span class="dark-mode-slider round"></span>
+        </label>
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="usefulLinksDropdown"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Useful Links
                     </button>
                     <div class="dropdown-content">
-                        <a href="https://docs.google.com/spreadsheets/d/1cwmvBUW8Bco_gnimGkr4BetPHMXwMlFpyRR7vMl4Hu8/edit#gid=0">Daily
-                            Update VSP Sheet</a>
-                        <a href="#">Certificate mandatory Service List(18-12-23)</a>
-                        <a href="#">Certificate Varification links</a>
-                        <a href="#">GIFT VOUCHER FORMAT</a>
-                        <a href="#">Gift Voucher Service list </a>
-                        <a href="#">List of Forged Cases_31 Dec'23(1)</a>
-                        <a href="#">mandatory certificates</a>
-                        <a href="#">SOP-VSP</a>
-                        <a href="#">Updated List of suspended seller by SPV from backend-Dec-2023</a>
-                        <a href="#">Updated List of suspended seller by SPV from backend-Jan-2024</a>
+                        <a href="https://docs.google.com/spreadsheets/d/1cwmvBUW8Bco_gnimGkr4BetPHMXwMlFpyRR7vMl4Hu8/edit#gid=0"
+                            target="_blank">Daily Update VSP Sheet</a>
+                        <a href="#" target="_blank">Certificate mandatory Service List(18-12-23)</a>
+                        <a href="#" target="_blank">Certificate Varification links</a>
+                        <a href="#" target="_blank">GIFT VOUCHER FORMAT</a>
+                        <a href="#" target="_blank">Gift Voucher Service list </a>
+                        <a href="#" target="_blank">List of Forged Cases_31 Dec'23(1)</a>
+                        <a href="#" target="_blank">mandatory certificates</a>
+                        <a href="#" target="_blank">SOP-VSP</a>
+                        <a href="#" target="_blank">Updated List of suspended seller by SPV from backend-Dec-2023</a>
+                        <a href="#" target="_blank">Updated List of suspended seller by SPV from backend-Jan-2024</a>
                     </div>
                 </div>
             </div>
@@ -185,7 +279,7 @@
                 <button type="button" style="background-color: darkgray; border: none;"class="btn btn-success" onclick="addRow()">Add Row</button>
                 <button type="button" style="background-color: red; border: none;" class="btn btn-primary" onclick="generateEmail()">Generate Mail</button>
                 <button type="button" style="background-color: blueviolet; border: none;"class="btn btn-info" onclick="copyToClipboard()">Copy Mail</button>
-                 <button type="button" style=" border: none;"class="btn btn-info" onclick="copySubject()">Copy Subject</button>
+                <button type="button" style=" border: none;"class="btn btn-info" onclick="copySubject()">Copy Subject</button>
             </div>
         </form>
        <hr>
@@ -194,16 +288,10 @@
         <div id="emailPreview"></div>
          <div id="emailSubject" style="visibility: none;"></div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-           function sendEmail() {
-            var emailPreview = document.getElementById('emailPreview').innerHTML;
-            window.location.href = 'mailto:jhalani.varun@gmail.com?subject=Email Subject&body=' + encodeURIComponent(emailPreview);
-        }
 
+        
         function addRow() {
             var claimsDetailsTable = document.getElementById('claimsDetailsTable').getElementsByTagName('tbody')[0];
 
@@ -224,97 +312,101 @@
             cells[4].innerHTML = '<input type="text" class="form-control endDate" required>';
         }
 
-        function generateEmail() {
-            var vendorName = document.getElementById('vendorName').value;
-            var serviceName = document.getElementById('serviceName').value;
-            var buyerDesignation = document.getElementById('buyerDesignation').value;
-            var buyerDepartment = document.getElementById('buyerDepartment').value;
-            var feedId = document.getElementById('feedId').value;
+function generateEmail() {
+    var vendorName = document.getElementById('vendorName').value;
+    var serviceName = document.getElementById('serviceName').value;
+    var buyerDesignation = document.getElementById('buyerDesignation').value;
+    var buyerDepartment = document.getElementById('buyerDepartment').value;
+    var feedId = document.getElementById('feedId').value;
 
-            // Combine buyer name and department with a comma
-            var buyerName = buyerDesignation+', '+buyerDepartment;
+    // Combine buyer name and department with a comma
+    var buyerName = buyerDesignation + ', ' + buyerDepartment;
 
-            var claimsDetailsTable = document.getElementById('claimsDetailsTable');
-            var rows = claimsDetailsTable.getElementsByClassName('claimRow');
-            var claimsDetails = '';
+    var claimsDetailsTable = document.getElementById('claimsDetailsTable');
+    var claimsDetailsBody = claimsDetailsTable.getElementsByTagName('tbody')[0];
+    var rows = claimsDetailsBody.getElementsByTagName('tr');
+    var claimsDetails = '';
 
-            for (var i = 0; i < rows.length; i++) {
-                var cells = rows[i].getElementsByTagName('input');
-                var workOrderNumber = cells[0].value;
-                var projectValue = cells[1].value;
-                var startDate = cells[2].value;
-                var endDate = cells[3].value;
+    for (var i = 0; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName('input');
+        var workOrderNumber = cells[0].value;
+        var projectValue = cells[1].value;
+        var startDate = cells[2].value;
+        var endDate = cells[3].value;
 
-                claimsDetails += `<tr>
-                                    <td>${i + 1}</td>
-                                    <td>${workOrderNumber}</td>
-                                    <td>${projectValue}</td>
-                                    <td>${startDate}</td>
-                                    <td>${endDate}</td>
-                                </tr>`;
-            }
-            var subject = 'To seek confirmation regarding ${vendorName} registering as a service provider on the GeM portal.';
-            var emailTemplate = `Dear Sir/Ma’am,<br>
+        claimsDetails += `<tr>
+                            <td>${i + 1}</td>
+                            <td>${workOrderNumber}</td>
+                            <td>${projectValue}</td>
+                            <td>${startDate}</td>
+                            <td>${endDate}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>`;
+    }
 
-Greetings from GeM!<br>
-<br>
-This is to seek confirmation regarding ${vendorName} registering as a service provider on the GeM portal. The seller claims to have provided the following:<br>
-Service Name: ${serviceName}<br>
-Buyer Name: ${buyerName}<br>
-<br>
-Below are the details shared by the service provider (feed ID: ${feedId}) on the GeM portal for further verification.<br>
-<table style="border: 1px solid black; border-collapse: collapse;">
-<tr>
-    <th rowspan="2">S.No.</th>
-    <th colspan="4">Claims as per the Service Provider</th>
-    <th colspan="2">To be filled by the recipient department</th>
-</tr>
-<tr>
-<th>Work Order Number</th>
-<th>Project Value</th>
-<th>Project Start Date</th>
-<th>Project End Date</th>
-<th>Confirmation (Y/N)</th>
-<th>Remarks(If any)</th>
-</tr>
-<tr>
-<td>${i}.</td>
-<td>${workOrderNumber}</td>
-<td>${projectValue}</td>
-<td>${startDate}</td>
-<td>${endDate}</td>
-<td></td>
-<td></td>
-</tr>
+    var subject = `To seek confirmation regarding ${vendorName} registering as a service provider on the GeM portal.`;
+    var emailTemplate = `Dear Sir/Ma’am,<br>
+    Greetings from GeM!<br>
+    <br>
+    This is to seek confirmation regarding ${vendorName} registering as a service provider on the GeM portal. The seller claims to have provided the following:<br>
+    Service Name: ${serviceName}<br>
+    Buyer Name: ${buyerName}<br>
+    <br>
+    Below are the details shared by the service provider (feed ID: ${feedId}) on the GeM portal for further verification.<br>
+    <table style="border: 1px solid black; border-collapse: collapse;">
+        <tr>
+            <th rowspan="2">S.No.</th>
+            <th colspan="4">Claims as per the Service Provider</th>
+            <th colspan="2">To be filled by the recipient department</th>
+        </tr>
+        <tr>
+            <th>Work Order Number</th>
+            <th>Project Value</th>
+            <th>Project Start Date</th>
+            <th>Project End Date</th>
+            <th>Confirmation (Y/N)</th>
+            <th>Remarks(If any)</th>
+        </tr>
+        ${claimsDetails}
+    </table>
+    <br>
+    <br>
+    <i><b>Note:</b> The completion document/work order/relevant documents (the document uploaded by the service provider) has been attached for your reference.</i><br>
+    <br>
+    Please revert to the same mail in Yes/No if credentials mentioned above are correct as per your records.<br>
+    <br>
+    Yes–If documents/details provided are authentic<br>
+    No–If documents/details provided are not authentic<br>
+    <br>
+    In this regard, we request you to please confirm whether the document submitted by the service provider is true and correct or not. The document uploaded by the service provider has been attached for your reference.<br>
+    <br>
+    Request you to please reply to the mail at the earliest of your convenience or within the next 4 days. In case of any query, please contact the undersigned.<br>
+    <br>
+    Also, please be informed that the GeM is a trust-based portal and therefore, it is imminent to verify the documents submitted by the service providers from the concerned Buyer department, otherwise, it may lead to possible forgery at the GeM portal. Considering the gravity of the situation, we request you to please take this on an urgent basis.<br>
+    <br>
+    Thanking You,<br>
+    Ganesh K Ingole<br>
+    Contact: 8600017722<br>
+    Government e-Marketplace (GeM)<br>
+    Ministry of Commerce & Industry`;
 
+    document.getElementById('emailPreview').innerHTML = emailTemplate;
+    document.getElementById('emailSubject').innerHTML = subject;
+    showPopup('Email generated successfully!');
+}
+    function showPopup(message) {
+        // Set the popup message
+        document.getElementById('popupMessage').innerText = message;
 
-</table>
- <br>
-<br>
-<i><b>Note:</b> The completion document/work order/relevant documents (the document uploaded by the service provider) has been attached for your reference.</i><br>
-<br>
- Please revert to the same mail in Yes/No if credentials mentioned
- above are correct as per your records.<br>
- <br>
- Yes–If documents/details provided are authentic<br>
- No–If documents/details provided are not authentic<br> 
-<br>
-In this regard, we request you to please confirm whether the document submitted by the service provider is true and correct or not. The document uploaded by the service provider has been attached for your reference.<br>
-<br>
- Request you to please reply to the mail at the earliest of your convenience or within the next 4 days. In case of any query, please contact the undersigned.<br>
-<br>
-Also, please be informed that the GeM is a trust-based portal and therefore, it is imminent to verify the documents submitted by the service providers from the concerned Buyer department, otherwise, it may lead to possible forgery at the GeM portal. Considering the gravity of the situation, we request you to please take this on an urgent basis.<br>
-<br>
-Thanking You,<br>
-Ganesh K Ingole<br>
-Contact: 8600017722<br>
-Government e-Marketplace (GeM)<br>
-Ministry of Commerce & Industry`;
+        // Show the overlay
+        document.getElementById('popupOverlay').style.display = 'flex';
 
-            document.getElementById('emailPreview').innerHTML = emailTemplate;
-            document.getElementById('emailSubject').innerHTML = `To seek confirmation regarding ${vendorName} registering as a service provider on the GeM portal.`;
-            
-        }
+        // Hide the overlay after 3 seconds
+        setTimeout(function () {
+            document.getElementById('popupOverlay').style.display = 'none';
+        }, 1000);
+    }
 
         function copyToClipboard() {
             var emailPreview = document.getElementById('emailPreview');
@@ -324,7 +416,7 @@ Ministry of Commerce & Industry`;
             window.getSelection().addRange(range);
             document.execCommand('copy');
             window.getSelection().removeAllRanges();
-            alert('Email copied to clipboard!');
+            showPopup('Email copied to clipboard!');
         }
 
    function copySubject() {
@@ -335,13 +427,37 @@ Ministry of Commerce & Industry`;
             window.getSelection().addRange(range);
             document.execCommand('copy');
             window.getSelection().removeAllRanges();
-            alert('subject copied to clipboard!');
+            showPopup('Subject copied to clipboard!');
         }
 
         document.addEventListener('contextmenu', function (e) {
           e.preventDefault();
         });
-  
+       document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if dark mode is enabled in localStorage
+            const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
+
+            // Toggle dark mode class
+            document.body.classList.toggle('dark-mode', darkModeEnabled);
+
+            // Add event listener for dark mode toggle
+            document.getElementById('toggleDarkMode').addEventListener('click', function () {
+                // Toggle dark mode class on the body
+                document.body.classList.toggle('dark-mode');
+
+                // Save dark mode preference to localStorage
+                const isDarkModeEnabled = document.body.classList.contains('dark-mode');
+                localStorage.setItem('darkMode', isDarkModeEnabled ? 'enabled' : 'disabled');
+            });
+        });    
+
     </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>
