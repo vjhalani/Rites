@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Generator</title>
+    <!-- Add Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        /* Common styles for both light and dark modes */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        th,
+        td {
+            border: 3px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            border-radius: 6px;
+        }
+
+        th {
+            background-color: white;
+            color: black;
+            font-weight: bold;
+            padding: 6px;
+            border-radius: 6px;
+        }
+
+        td {
+            border: 3px solid #ddd;
+            border-radius: 6px;
+        }
+
+        h2 {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .vsp-links {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        /* Styles for the dropdown */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            width: 100%;
+            box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            text-align: left;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: white;
+        }
+
+        body.dark-mode label {
+            color: white;
+        }
+
+        body.dark-mode input,
+        body.dark-mode textarea {
+            background-color: #303030;
+            color: white;
+        }
+
+        body.dark-mode th,
+        body.dark-mode td {
+            border: 3px solid #555;
+            background-color: #303030;
+            color: white;
+        }
+
+        body.dark-mode h2 {
+            color: white;
+        }
+
+        body.dark-mode .dropdown-content {
+            background-color: #303030;
+            color: white; 
+        }
+
+        body.dark-mode .dropdown-content a:hover {
+            background-color: #424242;
+            color: white; 
+        }
+    
+        .dark-mode-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 20px;
+        }
+
+        .dark-mode-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .dark-mode-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 20px;
+            transition: .4s;
+        }
+
+        .dark-mode-slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 2px;
+            bottom: 2px;
+            background-color: white;
+            border-radius: 50%;
+            transition: .4s;
+        }
+
+        input:checked+.dark-mode-slider {
+            background-color: #2196F3;
+        }
+
+        input:checked+.dark-mode-slider:before {
+            transform: translateX(20px);
+        }
+  
+    </style>
+</head>
+
+<body>
+    <div id="popupOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); align-items: center; justify-content: center; z-index: 999;color: black;">
+        <div style="background: white; padding: 20px; border-radius: 5px;">
+            <p id="popupMessage"></p>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-6">
+                <h2>VSP Confirmation Mail</h2>
+            </div>
+            <div class="col-md-6 vsp-links">
+                <div class="dropdown">
+       <label class="dark-mode-switch">
+            <input type="checkbox" id="toggleDarkMode">
+            <span class="dark-mode-slider round"></span>
+        </label>
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="usefulLinksDropdown"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Useful Links
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="https://docs.google.com/spreadsheets/d/1cwmvBUW8Bco_gnimGkr4BetPHMXwMlFpyRR7vMl4Hu8/edit#gid=0"
+                            target="_blank">Daily Update VSP Sheet</a>
+                        <a href="#" target="_blank">Certificate mandatory Service List(18-12-23)</a>
+                        <a href="#" target="_blank">Certificate Varification links</a>
+                        <a href="#" target="_blank">GIFT VOUCHER FORMAT</a>
+                        <a href="#" target="_blank">Gift Voucher Service list </a>
+                        <a href="#" target="_blank">List of Forged Cases_31 Dec'23(1)</a>
+                        <a href="#" target="_blank">mandatory certificates</a>
+                        <a href="#" target="_blank">SOP-VSP</a>
+                        <a href="#" target="_blank">Updated List of suspended seller by SPV from backend-Dec-2023</a>
+                        <a href="#" target="_blank">Updated List of suspended seller by SPV from backend-Jan-2024</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <form id="emailForm" style="padding-top: 20px;">
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="feedId">Feed ID:</label>
+                    <input type="text" class="form-control" id="feedId" required>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="serviceName">Service Name:</label>
+                    <input type="text" class="form-control" id="serviceName" required>
+                </div>
+
+                <div class="form-group  col-md-6">
+                    <label for="vendorName">Vendor Name:</label>
+                    <input type="text" class="form-control" id="vendorName" required>
+                </div>
+
+                <div class="form-group  col-md-6">
+                    <label for="buyerDesignation">Buyer Designation:</label>
+                    <input type="text" class="form-control" id="buyerDesignation" required>
+                </div>
+
+                <div class="form-group  col-md-6">
+                    <label for="buyerDepartment">Buyer Department:</label>
+                    <input type="text" class="form-control" id="buyerDepartment" required>
+                </div>
+            </div>
+            <label for="claimsDetails">Claims Details:</label>
+            <table class="table" id="claimsDetailsTable" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */">
+                <thead>
+                    <tr>
+                        <th style="font-weight: normal;">S.No</th>
+                        <th style="font-weight: normal;">Work Order Number</th>
+                        <th style="font-weight: normal;">Project Value</th>
+                        <th style="font-weight: normal;">Project Start Date</th>
+                        <th style="font-weight: normal;">Project End Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="claimRow">
+                        <td>1</td>
+                        <td><input type="text" class="form-control workOrderNumber" required></td>
+                        <td><input type="text" class="form-control projectValue" required></td>
+                        <td><input type="text" class="form-control startDate" required></td>
+                        <td><input type="text" class="form-control endDate" required></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="buttons" style="padding: 5px 2px 5px 2px; align-items: center; display: flex; justify-content: center;">
+                <button type="button" style="background-color: darkgray; border: none;"class="btn btn-success" onclick="addRow()">Add Row</button>
+                <button type="button" style="background-color: red; border: none;" class="btn btn-primary" onclick="generateEmail()">Generate Mail</button>
+                <button type="button" style="background-color: blueviolet; border: none;"class="btn btn-info" onclick="copyToClipboard()">Copy Mail</button>
+                <button type="button" style=" border: none;"class="btn btn-info" onclick="copySubject()">Copy Subject</button>
+            </div>
+        </form>
+       <hr>
+
+        <h3>Email Preview:</h3>
+        <div id="emailPreview"></div>
+         <div id="emailSubject" style="visibility: none;"></div>
+    </div>
+
+    <script>
+
+        
+        function addRow() {
+            var claimsDetailsTable = document.getElementById('claimsDetailsTable').getElementsByTagName('tbody')[0];
+
+            // Create a new row
+            var newRow = claimsDetailsTable.insertRow();
+
+            // Add cells to the new row
+            var cells = [];
+            for (var i = 0; i < 5; i++) {
+                cells[i] = newRow.insertCell(i);
+            }
+
+            // Set cell content and structure
+            cells[0].innerHTML = claimsDetailsTable.rows.length; // S.No
+            cells[1].innerHTML = '<input type="text" class="form-control workOrderNumber" required>';
+            cells[2].innerHTML = '<input type="text" class="form-control projectValue" required>';
+            cells[3].innerHTML = '<input type="text" class="form-control startDate" required>';
+            cells[4].innerHTML = '<input type="text" class="form-control endDate" required>';
+        }
+
+function generateEmail() {
+    var vendorName = document.getElementById('vendorName').value;
+    var serviceName = document.getElementById('serviceName').value;
+    var buyerDesignation = document.getElementById('buyerDesignation').value;
+    var buyerDepartment = document.getElementById('buyerDepartment').value;
+    var feedId = document.getElementById('feedId').value;
+
+    // Combine buyer name and department with a comma
+    var buyerName = buyerDesignation + ', ' + buyerDepartment;
+
+    var claimsDetailsTable = document.getElementById('claimsDetailsTable');
+    var claimsDetailsBody = claimsDetailsTable.getElementsByTagName('tbody')[0];
+    var rows = claimsDetailsBody.getElementsByTagName('tr');
+    var claimsDetails = '';
+
+    for (var i = 0; i < rows.length; i++) {
+        var cells = rows[i].getElementsByTagName('input');
+        var workOrderNumber = cells[0].value;
+        var projectValue = cells[1].value;
+        var startDate = cells[2].value;
+        var endDate = cells[3].value;
+
+        claimsDetails += `<tr>
+                            <td>${i + 1}</td>
+                            <td>${workOrderNumber}</td>
+                            <td>${projectValue}</td>
+                            <td>${startDate}</td>
+                            <td>${endDate}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>`;
+    }
+
+    var subject = `To seek confirmation regarding ${vendorName} registering as a service provider on the GeM portal.`;
+    var emailTemplate = `Dear Sir/Ma’am,<br>
+    Greetings from GeM!<br>
+    <br>
+    This is to seek confirmation regarding ${vendorName} registering as a service provider on the GeM portal. The seller claims to have provided the following:<br>
+    Service Name: ${serviceName}<br>
+    Buyer Name: ${buyerName}<br>
+    <br>
+    Below are the details shared by the service provider (feed ID: ${feedId}) on the GeM portal for further verification.<br>
+    <table style="border: 1px solid black; border-collapse: collapse;">
+        <tr>
+            <th rowspan="2">S.No.</th>
+            <th colspan="4">Claims as per the Service Provider</th>
+            <th colspan="2">To be filled by the recipient department</th>
+        </tr>
+        <tr>
+            <th>Work Order Number</th>
+            <th>Project Value</th>
+            <th>Project Start Date</th>
+            <th>Project End Date</th>
+            <th>Confirmation (Y/N)</th>
+            <th>Remarks(If any)</th>
+        </tr>
+        ${claimsDetails}
+    </table>
+    <br>
+    <br>
+    <i><b>Note:</b> The completion document/work order/relevant documents (the document uploaded by the service provider) has been attached for your reference.</i><br>
+    <br>
+    Please revert to the same mail in Yes/No if credentials mentioned above are correct as per your records.<br>
+    <br>
+    Yes–If documents/details provided are authentic<br>
+    No–If documents/details provided are not authentic<br>
+    <br>
+    In this regard, we request you to please confirm whether the document submitted by the service provider is true and correct or not. The document uploaded by the service provider has been attached for your reference.<br>
+    <br>
+    Request you to please reply to the mail at the earliest of your convenience or within the next 4 days. In case of any query, please contact the undersigned.<br>
+    <br>
+    Also, please be informed that the GeM is a trust-based portal and therefore, it is imminent to verify the documents submitted by the service providers from the concerned Buyer department, otherwise, it may lead to possible forgery at the GeM portal. Considering the gravity of the situation, we request you to please take this on an urgent basis.<br>
+    <br>
+    Thanking You,<br>
+    Ganesh K Ingole<br>
+    Contact: 8600017722<br>
+    Government e-Marketplace (GeM)<br>
+    Ministry of Commerce & Industry`;
+
+    document.getElementById('emailPreview').innerHTML = emailTemplate;
+    document.getElementById('emailSubject').innerHTML = subject;
+    showPopup('Email generated successfully!');
+}
+    function showPopup(message) {
+        // Set the popup message
+        document.getElementById('popupMessage').innerText = message;
+
+        // Show the overlay
+        document.getElementById('popupOverlay').style.display = 'flex';
+
+        // Hide the overlay after 3 seconds
+        setTimeout(function () {
+            document.getElementById('popupOverlay').style.display = 'none';
+        }, 1000);
+    }
+
+        function copyToClipboard() {
+            var emailPreview = document.getElementById('emailPreview');
+            var range = document.createRange();
+            range.selectNode(emailPreview);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            showPopup('Email copied to clipboard!');
+        }
+
+   function copySubject() {
+            var emailSub = document.getElementById('emailSubject');
+            var range = document.createRange();
+            range.selectNode(emailSub);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+            showPopup('Subject copied to clipboard!');
+        }
+
+        document.addEventListener('contextmenu', function (e) {
+          e.preventDefault();
+        });
+       document.addEventListener('contextmenu', function (e) {
+            e.preventDefault();
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+            // Check if dark mode is enabled in localStorage
+            const darkModeEnabled = localStorage.getItem('darkMode') === 'enabled';
+
+            // Toggle dark mode class
+            document.body.classList.toggle('dark-mode', darkModeEnabled);
+
+            // Add event listener for dark mode toggle
+            document.getElementById('toggleDarkMode').addEventListener('click', function () {
+                // Toggle dark mode class on the body
+                document.body.classList.toggle('dark-mode');
+
+                // Save dark mode preference to localStorage
+                const isDarkModeEnabled = document.body.classList.contains('dark-mode');
+                localStorage.setItem('darkMode', isDarkModeEnabled ? 'enabled' : 'disabled');
+            });
+        });    
+
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
