@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Email Generator</title>
-    <!-- Add Bootstrap CSS link -->
+    <!--Bootstrap CSS link -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Common styles for both light and dark modes */
+        /* Common styles for light and dark modes */
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -295,16 +295,16 @@
         function addRow() {
             var claimsDetailsTable = document.getElementById('claimsDetailsTable').getElementsByTagName('tbody')[0];
 
-            // Create a new row
+            // Creating a new row
             var newRow = claimsDetailsTable.insertRow();
 
-            // Add cells to the new row
+            // Adding cells to the new row
             var cells = [];
             for (var i = 0; i < 5; i++) {
                 cells[i] = newRow.insertCell(i);
             }
 
-            // Set cell content and structure
+            // Setting cell content and structure
             cells[0].innerHTML = claimsDetailsTable.rows.length; // S.No
             cells[1].innerHTML = '<input type="text" class="form-control workOrderNumber" required>';
             cells[2].innerHTML = '<input type="text" class="form-control projectValue" required>';
@@ -319,7 +319,7 @@ function generateEmail() {
     var buyerDepartment = document.getElementById('buyerDepartment').value;
     var feedId = document.getElementById('feedId').value;
 
-    // Combine buyer name and department with a comma
+    // Combining buyer name and department with a comma
     var buyerName = buyerDesignation + ', ' + buyerDepartment;
 
     var claimsDetailsTable = document.getElementById('claimsDetailsTable');
@@ -396,7 +396,7 @@ function generateEmail() {
     showPopup('Email generated successfully!');
 }
     function showPopup(message) {
-        // Set the popup message
+        // Seting up the popup message
         document.getElementById('popupMessage').innerText = message;
 
         // Show the overlay
