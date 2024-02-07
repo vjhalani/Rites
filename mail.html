@@ -4,17 +4,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Generator</title>
-    <!--Bootstrap CSS link -->
+    <title>Everything VSP</title>
+    <!-- Add Bootstrap CSS link -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        /* Common styles for light and dark modes */
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0; /* Remove the margin to stick the navbar to the top */
             transition: background-color 0.3s ease;
         }
 
+        .navbar {
+            background-color: #343a40; /* Dark background color */
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar-brand {
+            color: #ffffff; /* White text color */
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .navbar-nav .nav-link {
+            color: #ffffff; /* White text color */
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #f8f9fa; /* Lighter text color on hover */
+        }
+
+        .fixed-top {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: top 0.3s;
+        }
+
+        .fixed-top.navbar-scrolled {
+            background-color: #23272b; /* Darker background color when scrolled */
+        }
+
+        .fixed-top.navbar-scrolled .navbar-brand,
+        .fixed-top.navbar-scrolled .nav-link {
+            color: #ffffff; /* Change text color when scrolled */
+        }
+
+        .fixed-top.navbar-scrolled .navbar-toggler-icon {
+            background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="rgba(255, 255, 255, 0.5)" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E'); /* Change navbar toggler color when scrolled */
+        }
+/* Change navbar toggler to three lines */
+.navbar-toggler-icon {
+    background: none; /* Remove background color */
+    border: none; /* Remove border */
+    width: 24px; /* Adjust width */
+    height: 2px; /* Adjust height */
+    position: relative;
+}
+
+/* Add three lines */
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+    content: '';
+    display: block;
+    background-color: #fff; /* Color of the lines */
+    width: 100%;
+    height: 2px; /* Adjust line thickness */
+    position: absolute;
+    transition: transform 0.3s ease; /* Add transition for animation */
+}
+
+/* Position lines */
+.navbar-toggler-icon::before {
+    top: -6px; /* Position the first line */
+}
+
+.navbar-toggler-icon::after {
+    bottom: -6px; /* Position the third line */
+}
+
+/* Rotate lines for animation when toggled */
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+    transform: rotate(45deg); /* Rotate first line */
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+    transform: rotate(-45deg); /* Rotate third line */
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+    background: transparent; /* Hide middle line */
+}        .dropdown-item {
+            color: #343a40;
+        }
+
+        /* Dark mode styles */
+        body.dark-mode .navbar {
+            background-color: #1a1a1a;
+        }
+
+        body.dark-mode .navbar .navbar-toggler-icon {
+            background-color: #ccc;
+        }
+
+        body.dark-mode .nav-link {
+            color: white;
+        }
+
+        body.dark-mode .dropdown-item {
+            color: #f8f9fa; /* Lighter text color in dark mode */
+        }
+        /* Dark mode styles */
+        body.dark-mode .navbar {
+            background-color: #1a1a1a;
+        }
+
+        body.dark-mode .navbar .navbar-toggler-icon {
+            background-color: #ccc;
+        }
+
+        body.dark-mode .nav-link {
+            color: white;
+        }
         label {
             display: block;
             margin-bottom: 5px;
@@ -101,7 +212,36 @@
         .dropdown:hover .dropdown-content {
             display: block;
         }
+        .dropdown-menu {
+            right: 0;
+            left: auto;
+        }
 
+@media (max-width: 576px) {
+    /* Ensure useful links button remains visible on small screens */
+    .navbar-nav .dropdown-toggle {
+        display: block !important;
+    }
+
+    /* Adjust margin to create space for the dropdown */
+    .navbar-nav .dropdown-menu {
+        right: auto;
+        left: 0;
+        margin-top: 0;
+    }
+}
+    @media (max-width: 576px) {
+        /* Ensure dropdown menu remains visible on small screens */
+        .navbar-nav .dropdown-menu {
+            position: static;
+            float: none;
+        }
+
+        /* Adjust dropdown menu items to display vertically */
+        .dropdown-menu a {
+            display: block;
+        }
+    }
         /* Dark mode styles */
         body.dark-mode {
             background-color: #1a1a1a;
@@ -188,6 +328,45 @@
 </head>
 
 <body>
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#">Everything VSP</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+<!--         <label class="dark-mode-switch"style="padding-right:5px ;">
+            <input type="checkbox" id="toggleDarkMode">
+            <span class="dark-mode-slider round"></span>
+        </label> -->
+            <ul class="navbar-nav">
+
+
+                <li class="nav-item dropdown">
+
+                    <a class="nav-link dropdown-toggle" href="#" id="usefulLinksDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Usefull Links
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="usefulLinksDropdown">
+                        <a class="dropdown-item" href="https://docs.google.com/spreadsheets/d/1cwmvBUW8Bco_gnimGkr4BetPHMXwMlFpyRR7vMl4Hu8/edit#gid=0" target="_blank">Daily Update VSP Sheet</a>
+                        <a class="dropdown-item" href="#" target="_blank">Certificate mandatory Service List(18-12-23)</a>
+                        <a class="dropdown-item" href="#" target="_blank">Certificate Varification links</a>
+                        <a class="dropdown-item" href="#" target="_blank">GIFT VOUCHER FORMAT</a>
+                        <a class="dropdown-item" href="#" target="_blank">Gift Voucher Service list</a>
+                        <a class="dropdown-item" href="#" target="_blank">List of Forged Cases_31 Dec'23(1)</a>
+                        <a class="dropdown-item" href="#" target="_blank">mandatory certificates</a>
+                        <a class="dropdown-item" href="#" target="_blank">SOP-VSP</a>
+                        <a class="dropdown-item" href="#" target="_blank">Updated List of suspended seller by SPV from backend-Dec-2023</a>
+                        <a class="dropdown-item" href="#" target="_blank">Updated List of suspended seller by SPV from backend-Jan-2024</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
     <div id="popupOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); align-items: center; justify-content: center; z-index: 999;color: black;">
         <div style="background: white; padding: 20px; border-radius: 5px;">
             <p id="popupMessage"></p>
@@ -195,37 +374,7 @@
     </div>
 
     <div class="container">
-
-        <div class="row">
-            <div class="col-md-6">
-                <h2>VSP Confirmation Mail</h2>
-            </div>
-            <div class="col-md-6 vsp-links">
-                <div class="dropdown">
-       <label class="dark-mode-switch">
-            <input type="checkbox" id="toggleDarkMode">
-            <span class="dark-mode-slider round"></span>
-        </label>
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="usefulLinksDropdown"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Usefull Links
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="https://docs.google.com/spreadsheets/d/1cwmvBUW8Bco_gnimGkr4BetPHMXwMlFpyRR7vMl4Hu8/edit#gid=0"
-                            target="_blank">Daily Update VSP Sheet</a>
-                        <a href="#" target="_blank">Certificate mandatory Service List(18-12-23)</a>
-                        <a href="https://docs.google.com/spreadsheets/d/1Z1Ny5udD-D5JuCQFH3ZgMYvduH0JPv65xx9t0FnBgd0/edit#gid=0" target="_blank">Certificate Varification links</a>
-                        <a href="#" target="_blank">GIFT VOUCHER FORMAT</a>
-                        <a href="https://docs.google.com/spreadsheets/d/1Dy9rEl7xVyJdSLocfiSFq0RYh09nojx5RsMZYrpEhEU/edit#gid=556159618" target="_blank">Gift Voucher Service list </a>
-                        <a href="#" target="_blank">List of Forged Cases_31 Dec'23(1)</a>
-                        <a href="#" target="_blank">mandatory certificates</a>
-                        <a href="#" target="_blank">SOP-VSP</a>
-                        <a href="#" target="_blank">Updated List of suspended seller by SPV from backend-Dec-2023</a>
-                        <a href="#" target="_blank">Updated List of suspended seller by SPV from backend-Jan-2024</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <h2 class="generate-mail-heading" style="padding-top: 90px;">Confirmation Mail</h2>
 
         <form id="emailForm" style="padding-top: 20px;">
             <div class="form-row">
@@ -295,16 +444,16 @@
         function addRow() {
             var claimsDetailsTable = document.getElementById('claimsDetailsTable').getElementsByTagName('tbody')[0];
 
-            // Creating a new row
+            // Create a new row
             var newRow = claimsDetailsTable.insertRow();
 
-            // Adding cells to the new row
+            // Add cells to the new row
             var cells = [];
             for (var i = 0; i < 5; i++) {
                 cells[i] = newRow.insertCell(i);
             }
 
-            // Setting cell content and structure
+            // Set cell content and structure
             cells[0].innerHTML = claimsDetailsTable.rows.length; // S.No
             cells[1].innerHTML = '<input type="text" class="form-control workOrderNumber" required>';
             cells[2].innerHTML = '<input type="text" class="form-control projectValue" required>';
@@ -319,7 +468,7 @@ function generateEmail() {
     var buyerDepartment = document.getElementById('buyerDepartment').value;
     var feedId = document.getElementById('feedId').value;
 
-    // Combining buyer name and department with a comma
+    // Combine buyer name and department with a comma
     var buyerName = buyerDesignation + ', ' + buyerDepartment;
 
     var claimsDetailsTable = document.getElementById('claimsDetailsTable');
@@ -395,8 +544,11 @@ function generateEmail() {
     document.getElementById('emailSubject').innerHTML = subject;
     showPopup('Email generated successfully!');
 }
+    $(document).ready(function () {
+        $('.dropdown-toggle').dropdown();
+    });
     function showPopup(message) {
-        // Seting up the popup message
+        // Set the popup message
         document.getElementById('popupMessage').innerText = message;
 
         // Show the overlay
@@ -455,9 +607,8 @@ function generateEmail() {
         });    
 
     </script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.2/js/bootstrap.min.js"></script>
-
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
