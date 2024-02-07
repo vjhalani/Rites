@@ -53,8 +53,48 @@
         .fixed-top.navbar-scrolled .navbar-toggler-icon {
             background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="rgba(255, 255, 255, 0.5)" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E'); /* Change navbar toggler color when scrolled */
         }
+/* Change navbar toggler to three lines */
+.navbar-toggler-icon {
+    background: none; /* Remove background color */
+    border: none; /* Remove border */
+    width: 24px; /* Adjust width */
+    height: 2px; /* Adjust height */
+    position: relative;
+}
 
-        .dropdown-item {
+/* Add three lines */
+.navbar-toggler-icon::before,
+.navbar-toggler-icon::after {
+    content: '';
+    display: block;
+    background-color: #fff; /* Color of the lines */
+    width: 100%;
+    height: 2px; /* Adjust line thickness */
+    position: absolute;
+    transition: transform 0.3s ease; /* Add transition for animation */
+}
+
+/* Position lines */
+.navbar-toggler-icon::before {
+    top: -6px; /* Position the first line */
+}
+
+.navbar-toggler-icon::after {
+    bottom: -6px; /* Position the third line */
+}
+
+/* Rotate lines for animation when toggled */
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::before {
+    transform: rotate(45deg); /* Rotate first line */
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon::after {
+    transform: rotate(-45deg); /* Rotate third line */
+}
+
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+    background: transparent; /* Hide middle line */
+}        .dropdown-item {
             color: #343a40;
         }
 
