@@ -188,7 +188,16 @@
             right: 0;
             left: auto;
         }
+        .how-to-use-button{
+            padding-top: 50px;
+            transition: padding-top 0.3s ease;
+            font-size: 20px;
 
+        }
+
+        .how-to-use-button:hover{
+            padding-top: 85px;
+        }
 @media (max-width: 576px) {
     /* for useful links button remains visible on small screens */
     .navbar-nav .dropdown-toggle {
@@ -254,7 +263,11 @@
     </div>
 
     <div class="container">
-        <h2 class="generate-mail-heading" style="padding-top: 90px;">Confirmation Mail</h2>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 class="generate-mail-heading" style="padding-top: 95px;">Confirmation Mail</h2>
+            <a style=" font-weight: bold; background-color: #131921; color: #FF613E; border: none;" href="https://www.loom.com/share/8df1c52086094125a4d05c33b2d68f74?sid=00c2ccce-471c-4c73-a342-54048cc76297" target="_blank" class="btn btn-info how-to-use-button" onclick="showHowToUse()">How to Use?<br>Click Here</a>
+        </div>
 
         <form id="emailForm" style="padding-top: 20px;">
             <label for="vendorDetails" style="font-weight: bold;">Vendor Details: <span style="font-weight: lighter;font-style: italic;">(Copy data from "FeedID" to "Seller" column by dragging and paste it in the first column below)</span></label>
