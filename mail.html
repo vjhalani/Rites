@@ -6,12 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VSP Varun Jhalani</title>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
     <!-- Add Bootstrap CSS link -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
+        html{
+            scroll-behavior: smooth;
+        }
         body {
             font-family: Arial, sans-serif;
             margin: 0; /* Remove the margin to stick the navbar to the top */
@@ -249,8 +252,6 @@
                     <a class="nav-link dropdown-toggle" href="#" id="usefulLinksDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     For Gift Vouchers</a>
                     <div class="dropdown-menu" aria-labelledby="usefulLinksDropdown">
-                        <!-- <a class="dropdown-item" href="https://docs.google.com/spreadsheets/d/1cwmvBUW8Bco_gnimGkr4BetPHMXwMlFpyRR7vMl4Hu8/edit#gid=0" target="_blank">VSP Sheet</a>
-                        <a class="dropdown-item" href="https://docs.google.com/spreadsheets/d/1znbcR9VAmwlhtopqL29pMTVrI_z_AGFs/edit#gid=219291130" target="_blank">Status</a> -->
                         <a class="dropdown-item" href="https://docs.google.com/document/d/1ZOGdUfyXb0XWu-swrG5kjQ0PQ7IiWlQHyEgfs2vocic/edit" target="_blank">Gift Voucher Mail Format</a>
                         <a class="dropdown-item" href="https://docs.google.com/spreadsheets/d/1Y3NcPwCWAj5i7IdYvjMSpM-9k3s2Zhytc6AE_357WiA/edit#gid=1273473002" target="_blank">Gift Voucher Service List</a>
                     </div>
@@ -322,7 +323,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="claimRow">
+                    <tr class="claimRow" id="claimRow">
                         <td><button type="button" style="background-color: #CDCDCD; border: none; color: black;" id="clearAllButton" class="btn btn-danger" onclick="clearClaimsDetailsTable()">Clear</button></td>
                         <td><input type="text" class="form-control workOrderNumber" required ></td>
                         <td><input type="text" class="form-control buyerDepartment" required></td>
@@ -459,6 +460,7 @@
 
             document.getElementById('emailPreview').innerHTML = emailTemplate;
             document.getElementById('emailSubject').innerText = subject;
+            document.getElementById('claimRow').scrollIntoView(); //to scroll down while pressing generate button
             showPopup('Email generated successfully!');
             // e.stopPropagation();
         }
