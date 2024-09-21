@@ -234,32 +234,36 @@
 </head>
 
 <body>
-<nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
-<!--         <a class="navbar-brand" href="#">VsP</a> -->
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-
-            <ul class="navbar-nav">
-
-
-                <li class="nav-item dropdown">
-
-                    <a class="nav-link dropdown-toggle" href="#" id="usefulLinksDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    For Gift Vouchers</a>
-                    <div class="dropdown-menu" aria-labelledby="usefulLinksDropdown">
-                        <a class="dropdown-item" href="https://docs.google.com/document/d/1ZOGdUfyXb0XWu-swrG5kjQ0PQ7IiWlQHyEgfs2vocic/edit" target="_blank">Gift Voucher Mail Format</a>
-                        <a class="dropdown-item" href="https://docs.google.com/spreadsheets/d/1Y3NcPwCWAj5i7IdYvjMSpM-9k3s2Zhytc6AE_357WiA/edit#gid=1273473002" target="_blank">Gift Voucher Service List</a>
-                    </div>
-                </li>
-            </ul>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Confirmation Mail</a>
+            
+            <!-- New Button -->
+            <a class="btn btn-outline-primary rounded-pill ml-2" href="https://www.loom.com/share/8df1c52086094125a4d05c33b2d68f74?sid=00c2ccce-471c-4c73-a342-54048cc76297" target="_blank" onclick="window.location.href='#'">
+                How to Use</a>
+            
+            
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="usefulLinksDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            For Gift Vouchers
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="usefulLinksDropdown">
+                            <a class="dropdown-item" href="https://docs.google.com/document/d/1ZOGdUfyXb0XWu-swrG5kjQ0PQ7IiWlQHyEgfs2vocic/edit" target="_blank">Gift Voucher Mail Format</a>
+                            <a class="dropdown-item" href="https://docs.google.com/spreadsheets/d/1Y3NcPwCWAj5i7IdYvjMSpM-9k3s2Zhytc6AE_357WiA/edit#gid=1273473002" target="_blank">Gift Voucher Service List</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
+    
 
     <div id="popupOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); align-items: center; justify-content: center; z-index: 999;color: black;">
         <div style="background: white; padding: 20px; border-radius: 5px;">
@@ -267,14 +271,18 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" style="padding-top: 70px;">
         
         <div style="display: flex; justify-content: space-between; align-items: center;">
-            <h2 class="generate-mail-heading" style="padding-top: 95px;">Confirmation Mail</h2>
-             <a style=" font-weight: bold; background-color: #131921; color: #FF613E; border: none;" href="https://www.loom.com/share/8df1c52086094125a4d05c33b2d68f74?sid=00c2ccce-471c-4c73-a342-54048cc76297" target="_blank" class="btn btn-info how-to-use-button" onclick="showHowToUse()">How to Use?<br>Click Here</a>
+            <!-- <h2 class="generate-mail-heading" style="padding-top: 95px;">Confirmation Mail</h2> -->
+             <!-- <a style=" font-weight: bold; background-color: #131921; color: #FF613E; border: none;" href="https://www.loom.com/share/8df1c52086094125a4d05c33b2d68f74?sid=00c2ccce-471c-4c73-a342-54048cc76297" target="_blank" class="btn btn-info how-to-use-button" onclick="showHowToUse()">How to Use?</a> -->
         </div>
 
         <form id="emailForm" style="padding-top: 20px;">
+            <!-- <div class="mb-3" style="text-align: right;padding-top: 60px;">
+                <button type="button" class="btn btn-outline-secondary" onclick="copyToGSheet()">Copy Record for GSheet</button>
+                <a class="btn btn-outline-secondary" href="https://docs.google.com/spreadsheets/d/1kjTXg-OQL14s4rGTjp9Nixi0I13lOinfsK8yZWnlfeY/edit?usp=sharing" target="_blank">GSheet</a>
+            </div> -->
 <!--             <label for="vendorDetails" style="font-weight: bold;">Vendor Details: <span style="font-weight: lighter;font-style: italic;">(Copy data from "FeedID" to "Seller" column by dragging and paste it in the first column below)</span></label> -->
              <label for="vendorDetails" style="font-weight: bold;">Vendor Details:</label>
 
