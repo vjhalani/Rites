@@ -5,10 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VSP Varun Jhalani</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-    <link rel="manifest" href="/site.webmanifest">
     <!-- Add Bootstrap CSS link -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
@@ -23,7 +19,7 @@
 
         .navbar {
             background-color: #0F3850; /* Dark background color */
-            transition: background-color 0.3s ease;
+            /* transition: background-color 0.3s ease; */
         }
 
         .navbar-brand {
@@ -195,16 +191,7 @@
             right: 0;
             left: auto;
         }
-        .how-to-use-button{
-            padding-top: 50px;
-            transition: padding-top 0.3s ease;
-            font-size: 20px;
 
-        }
-
-        .how-to-use-button:hover{
-            padding-top: 85px;
-        }
 @media (max-width: 576px) {
     /* for useful links button remains visible on small screens */
     .navbar-nav .dropdown-toggle {
@@ -238,10 +225,9 @@
         <div class="container">
             <a class="navbar-brand" href="#">Confirmation Mail</a>
             
-            <!-- New Button -->
-            <a class="btn btn-outline-primary rounded-pill ml-2" href="https://www.loom.com/share/8df1c52086094125a4d05c33b2d68f74?sid=00c2ccce-471c-4c73-a342-54048cc76297" target="_blank" onclick="window.location.href='#'">
+            <!--how to use button-->
+            <a class="btn btn-outline-info rounded-pill ml-2" href="https://www.loom.com/share/4ea0c7312d894088a7532dc7bfa80631?sid=1fb9806e-1fd1-4618-85ef-4c0b69d3a24a" target="_blank" onclick="window.location.href='#'">
                 How to Use</a>
-            
             
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -256,7 +242,7 @@
                         </a>
                         <div class="dropdown-menu" aria-labelledby="usefulLinksDropdown">
                             <a class="dropdown-item" href="https://docs.google.com/document/d/1ZOGdUfyXb0XWu-swrG5kjQ0PQ7IiWlQHyEgfs2vocic/edit" target="_blank">Gift Voucher Mail Format</a>
-                            <a class="dropdown-item" href="https://docs.google.com/spreadsheets/d/1Dy9rEl7xVyJdSLocfiSFq0RYh09nojx5RsMZYrpEhEU/edit?gid=556159618#gid=556159618" target="_blank">Gift Voucher Mail Ids</a>
+                            <a class="dropdown-item" href="https://docs.google.com/spreadsheets/d/1Y3NcPwCWAj5i7IdYvjMSpM-9k3s2Zhytc6AE_357WiA/edit#gid=1273473002" target="_blank">Gift Voucher Mail Ids</a>
                         </div>
                     </li>
                 </ul>
@@ -272,18 +258,13 @@
     </div>
 
     <div class="container" style="padding-top: 100px;">
-        
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-            <!-- <h2 class="generate-mail-heading" style="padding-top: 95px;">Confirmation Mail</h2> -->
-             <!-- <a style=" font-weight: bold; background-color: #131921; color: #FF613E; border: none;" href="https://www.loom.com/share/8df1c52086094125a4d05c33b2d68f74?sid=00c2ccce-471c-4c73-a342-54048cc76297" target="_blank" class="btn btn-info how-to-use-button" onclick="showHowToUse()">How to Use?</a> -->
-        </div>
-
         <form id="emailForm">
-            <!-- <div class="mb-3" style="text-align: right;padding-top: 60px;">
-                <button type="button" class="btn btn-outline-secondary" onclick="copyToGSheet()">Copy Record for GSheet</button>
-                <a class="btn btn-outline-secondary" href="https://docs.google.com/spreadsheets/d/1kjTXg-OQL14s4rGTjp9Nixi0I13lOinfsK8yZWnlfeY/edit?usp=sharing" target="_blank">GSheet</a>
+
+            <!-- Data copying button -->
+            <!-- <div class="mb-1" style="text-align: right;">
+                <button type="button" class="btn btn-outline-dark rounded-pill" onclick="copyToGSheet()">Copy Mail Record</button>
             </div> -->
-<!--             <label for="vendorDetails" style="font-weight: bold;">Vendor Details: <span style="font-weight: lighter;font-style: italic;">(Copy data from "FeedID" to "Seller" column by dragging and paste it in the first column below)</span></label> -->
+
              <label for="vendorDetails" style="font-weight: bold;">Vendor Details:</label>
 
             <table class="table" id="vendorDetailsTable" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */">
@@ -295,6 +276,12 @@
                         <th style="font-weight: normal; display: none;">SKU</th>
                         <th style="font-weight: normal;">Service</th>
                         <th style="font-weight: normal;">Seller</th>
+                        <!-- <th style="font-weight: normal;display: none;">Seller Comp ID</th>
+                        <th style="font-weight: normal;display: none;">Created At</th>
+                        <th style="font-weight: normal;display: none;">Seller Updated</th>
+                        <th style="font-weight: normal;display: none;">Qci date</th>
+                        <th style="font-weight: normal;display: none;">Owner</th>
+                        <th style="font-weight: normal;display: none;">Status</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -305,12 +292,17 @@
                         <td style="display: none;"><input type="text" class="form-control sku" required></td>
                         <td><input type="text" class="form-control category" id="serviceName" required></td>
                         <td><input type="text" class="form-control seller" id="vendorName" required></td>
+                        <!-- <td style="display: none;"><input type="text" class="form-control sellercompid" id="vendorName" required></td>
+                        <td style="display: none;"><input type="text" class="form-control createdat" id="vendorName" required></td>
+                        <td style="display: none;"><input type="text" class="form-control sellerupdated" id="vendorName" required></td>
+                        <td style="display: none;"><input type="text" class="form-control qcidate" id="vendorName" required></td>
+                        <td style="display: none;"><input type="text" class="form-control owner" id="vendorName" required></td>
+                        <td style="display: none;"><input type="text" class="form-control status" id="vendorName" required></td> -->
                     </tr>
                 </tbody>
             </table>
  
             <label for="claimsDetails" style="font-weight: bold;padding-top: 20px;">Claims Details:</label>
-<!--             <label for="claimsDetails" style="font-weight: bold;padding-top: 20px;">Claims Details: <span style="font-weight: lighter;font-style: italic;">(Copy data from "Department Name" to "Designation" column by dragging and paste it in the first column below)</span></label> -->
             <table class="table" id="claimsDetailsTable" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */">
                 <thead>
                     <tr>
@@ -334,7 +326,7 @@
                 </thead>
                 <tbody>
                     <tr class="claimRow" id="claimRow">
-                        <td><button type="button" style="background-color: #CDCDCD; border: none; color: black;" id="clearAllButton" class="btn btn-danger" onclick="clearClaimsDetailsTable()">Clear</button></td>
+                        <td><button type="button" id="clearAllButton" class="btn btn-light" onclick="clearClaimsDetailsTable()">Clear</button></td>
                         <td><input type="text" class="form-control workOrderNumber" required ></td>
                         <td><input type="text" class="form-control buyerDepartment" required></td>
                         <td><input type="text" class="form-control projectValue" required></td>
@@ -355,9 +347,10 @@
 
             </table>
             <div class="buttons" style="padding: 15px 2px 5px 2px; align-items: center; display: flex; justify-content: center;">
-                <button type="button" style="background-color: #5CB85B; border: none;" class="btn btn-primary" onclick="generateEmail()">Generate Mail</button>
-                <button type="button" style="background-color: #D8534E; border: none;"class="btn btn-info" onclick="copyToClipboard()">Copy Mail</button>
-                <button type="button" style=" border: none;"class="btn btn-info" onclick="copySubject()">Copy Subject</button>
+                <button type="button" class="btn btn-success" onclick="generateEmail()">Generate Mail</button>
+                <button type="button" class="btn btn-primary" onclick="copyToClipboard()">Copy Mail</button>
+                <button type="button" class="btn btn-secondary" onclick="copySubject()">Copy Subject</button>
+
             </div>
         </form>
        <hr>
@@ -367,7 +360,8 @@
         <div id="emailPreview"></div>
     </div>
     <script>
-    function clearClaimsDetailsTable() {
+    function clearClaimsDetailsTable() 
+    {
         console.log("Clear button clicked");
         var claimsDetailsTable = document.getElementById('claimsDetailsTable');
         var claimsDetailsBody = claimsDetailsTable.getElementsByTagName('tbody')[0];
@@ -387,13 +381,6 @@
             var vendorName = document.getElementById('vendorDetailsTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByClassName('seller')[0].value;
             var serviceName = document.getElementById('vendorDetailsTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByClassName('category')[0].value;
             var feedId = document.getElementById('vendorDetailsTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByClassName('feedid')[0].value;
-
-            console.log("Vendor Name:", vendorName);
-            console.log("Service Name:", serviceName);
-            console.log("Feed ID:", feedId);
-            console.log("Buyer Designation:", buyerDesignation);
-            console.log("Buyer Department:", buyerDepartment);
-            
 
             var claimsDetailsTable = document.getElementById('claimsDetailsTable');
             var claimsDetailsBody = claimsDetailsTable.getElementsByTagName('tbody')[0];
@@ -473,7 +460,6 @@
             document.getElementById('emailSubject').innerText = subject;
             document.getElementById('claimRow').scrollIntoView(); //to scroll down while pressing generate button
             showPopup('Email generated successfully!');
-            // e.stopPropagation();
         }
             $(document).ready(function () {
                 $('.dropdown-toggle').dropdown();
@@ -526,7 +512,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
     // Function to clear input fields in the claims details table
-
     document.getElementById('clearAllButton').addEventListener('click', clearClaimsDetailsTable);
     </script>
     <script>
@@ -596,7 +581,42 @@
                 }
             }
         }
+        function copyToGSheet() {
+            var vendorDetailsTable = document.getElementById('vendorDetailsTable');
+            var vendorDetailsBody = vendorDetailsTable.getElementsByTagName('tbody')[0];
+            var rows = vendorDetailsBody.getElementsByTagName('tr');
+            var dataToCopy = [];
 
+            // Get current date in the desired format
+            var currentDate = new Date();
+            var options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+            var formattedDate = currentDate.toLocaleDateString('en-US', options);
+
+            for (var i = 0; i < rows.length; i++) {
+                var cells = rows[i].getElementsByTagName('td');
+                var rowData = [];
+
+                for (var j = 0; j < cells.length; j++) {
+                    var cellData = cells[j].querySelector('input') ? cells[j].querySelector('input').value : cells[j].innerText;
+                    // Replacing "pending" with "In-Progress" in the last column
+                    if (j === cells.length - 1 && cellData.toLowerCase() === "pending") {
+                        cellData = "In-Progress";
+                    }
+                    rowData.push(cellData);
+                }
+                // Add the formatted date in the last column
+                rowData.push(formattedDate);
+                dataToCopy.push(rowData.join('\t')); // Tab-separated values for Google Sheets
+            }
+
+            // Copy data to clipboard
+            navigator.clipboard.writeText(dataToCopy.join('\n')).then(function() {
+                showPopup('Data Copied to Clipboard!');
+                // alert("Data copied to clipboard!");
+            }, function(err) {
+                console.error("Could not copy text: ", err);
+            });
+}
 
         function handleVendorPaste(e) {
             var clipboardData, pastedData;
