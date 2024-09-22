@@ -37,27 +37,6 @@
         color: #f8f9fa;
     }
     
-    .fixed-top {
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        transition: top 0.3s;
-    }
-    
-    .fixed-top.navbar-scrolled {
-        background-color: #23272b;
-    }
-    
-    .fixed-top.navbar-scrolled .navbar-brand,
-    .fixed-top.navbar-scrolled .nav-link {
-        color: #ffffff;
-    }
-    
-    .fixed-top.navbar-scrolled .navbar-toggler-icon {
-        background-image: url('data:image/svg+xml;charset=utf8,%3Csvg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath stroke="rgba(255, 255, 255, 0.5)" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
-    }
-    
     /* Navbar Toggler */
     .navbar-toggler-icon {
         background: none;
@@ -99,11 +78,6 @@
         background: transparent;
     }
     
-    /* Dropdown */
-    .dropdown-item {
-        color: #343a40;
-    }
-    
     /* Form styles */
     label {
         display: block;
@@ -121,7 +95,7 @@
     
     button {
         cursor: pointer;
-        margin-right: 4px;
+        margin-right: 10px;
     }
     
     /* Table styles */
@@ -134,28 +108,40 @@
     th,
     td {
         border: 3px solid #ddd;
-        padding: 8px;
+        padding: 12px 8px;
         text-align: left;
-        border-radius: 6px;
     }
     
     th {
+        font-size: 0.8rem;
         background-color: #F5F5F5;
         color: black;
-        font-weight: bold;
+        font-weight: 600;
         padding: 6px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
-    
-    td {
-        border-radius: 6px;
-    }
-    
-    /* Headings */
-    h2 {
+ 
+    h2 { font-size: 1.25rem;
         text-align: left;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
     }
-</style>    
+
+
+    #claimsDetailsTable th, #claimsDetailsTable td {
+        border: none;
+        padding: 12px 8px;
+        border-bottom: 1px solid #ddd;
+    }
+    #claimsDetailsTable th {
+        font-weight: normal;
+        border-bottom: 2px solid #ddd;
+    }
+    #claimsDetailsTable tbody tr:hover {
+        background-color: #f9f9f9;
+    }
+</style>
+
 </head>
 
 <body>
@@ -165,10 +151,10 @@
                 <a class="navbar-brand" href="#">Mails</a>
                 
                 <!-- 'How to Use' button-->
-                <a class="btn btn-outline-info btn-sm rounded-pill ml-auto" href="https://www.loom.com/share/4ea0c7312d894088a7532dc7bfa80631?sid=1fb9806e-1fd1-4618-85ef-4c0b69d3a24a" target="_blank" onclick="window.location.href='#'">
+                <!-- <a class="btn btn-outline-info btn-sm rounded-pill ml-auto" href="https://www.loom.com/share/4ea0c7312d894088a7532dc7bfa80631?sid=1fb9806e-1fd1-4618-85ef-4c0b69d3a24a" target="_blank" onclick="window.location.href='#'">
                     How to Use
                 </a> 
-               
+                -->
             </div>    
             
             <!-- Navbar toggler button for smaller screens-->
@@ -201,99 +187,100 @@
         <form id="emailForm">
 
             <!-- Data copying button -->
-<!--             <div class="mb-1" style="text-align: right;">
+            <!-- <div class="mb-1" style="text-align: right;">
                 <button type="button" class="btn btn-sm btn-outline-dark rounded-pill" onclick="copyToGSheet()">Copy Mail Record</button>
-            </div>
- -->
-             <label for="vendorDetails" style="font-weight: bold;">Vendor Details:</label>
+            </div> -->
 
-            <table class="table" id="vendorDetailsTable" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */">
+             <label for="vendorDetails" style="font-weight: bold;">VENDOR DETAILS:</label>
+
+             <table class="table" id="vendorDetailsTable" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 100%; border-collapse: collapse; border-top: 2px solid #ddd;">
                 <thead>
                     <tr>
-                        <th style="font-weight: normal;">Feed ID</th>
-                        <th style="font-weight: normal; display: none;">Type</th>
-                        <th style="font-weight: normal; display: none;">Title</th>
-                        <th style="font-weight: normal; display: none;">SKU</th>
-                        <th style="font-weight: normal;">Service</th>
-                        <th style="font-weight: normal;">Seller</th>
-                        <!-- <th style="font-weight: normal;display: none;">Seller Comp ID</th>
-                        <th style="font-weight: normal;display: none;">Created At</th>
-                        <th style="font-weight: normal;display: none;">Seller Updated</th>
-                        <th style="font-weight: normal;display: none;">Qci date</th>
-                        <th style="font-weight: normal;display: none;">Owner</th>
-                        <th style="font-weight: normal;display: none;">Status</th> -->
+                        <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Feed ID</th>
+                        <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Type</th>
+                        <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Title</th>
+                        <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">SKU</th>
+                        <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Service</th>
+                        <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Seller</th>
+                        <!-- <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
+                        <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
+                        <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
+                        <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
+                        <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
+                        <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th> -->
                     </tr>
                 </thead>
                 <tbody>
                     <tr class="vendorRow">
-                        <td><input type="text" class="form-control feedid" id="feedId" required></td>
-                        <td style="display: none;"><input type="text" class="form-control type" required></td>
-                        <td style="display: none;"><input type="text" class="form-control title" required></td>
-                        <td style="display: none;"><input type="text" class="form-control sku" required></td>
-                        <td><input type="text" class="form-control category" id="serviceName" required></td>
-                        <td><input type="text" class="form-control seller" id="vendorName" required></td>
-                        <!-- <td style="display: none;"><input type="text" class="form-control sellercompid" id="vendorName" required></td>
-                        <td style="display: none;"><input type="text" class="form-control createdat" id="vendorName" required></td>
-                        <td style="display: none;"><input type="text" class="form-control sellerupdated" id="vendorName" required></td>
-                        <td style="display: none;"><input type="text" class="form-control qcidate" id="vendorName" required></td>
-                        <td style="display: none;"><input type="text" class="form-control owner" id="vendorName" required></td>
-                        <td style="display: none;"><input type="text" class="form-control status" id="vendorName" required></td> -->
+                        <td style="border: none; padding: 12px 8px;"><input type="text" class="form-control feedid" id="feedId" required></td>
+                        <td style="display: none; border: none;"><input type="text" class="form-control type" required></td>
+                        <td style="display: none; border: none;"><input type="text" class="form-control title" required></td>
+                        <td style="display: none; border: none;"><input type="text" class="form-control sku" required></td>
+                        <td style="border: none; padding: 12px 8px;"><input type="text" class="form-control category" id="serviceName" required></td>
+                        <td style="border: none; padding: 12px 8px;"><input type="text" class="form-control seller" id="vendorName" required></td>
+                        <!-- <td style="display: none; border: none;"><input type="text" class="form-control blank" id="vendorName" required></td>
+                        <td style="display: none; border: none;"><input type="text" class="form-control blank" id="vendorName" required></td>
+                        <td style="display: none; border: none;"><input type="text" class="form-control blank" id="vendorName" required></td>
+                        <td style="display: none; border: none;"><input type="text" class="form-control blank" id="vendorName" required></td>
+                        <td style="display: none; border: none;"><input type="text" class="form-control blank" id="vendorName" required></td>
+                        <td style="display: none; border: none;"><input type="text" class="form-control blank" id="vendorName" required></td> -->
                     </tr>
                 </tbody>
             </table>
- 
-            <label for="claimsDetails" style="font-weight: bold;padding-top: 20px;">Claims Details:</label>
+                                    
+            <label for="claimsDetails" style="font-weight: bold; padding-top: 20px;">CLAIM DETAILS:</label>
             <div class="table-responsive">
-                <table class="table" id="claimsDetailsTable" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 100%; /* Add shadow */">
+                <table class="table" id="claimsDetailsTable" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 100%; border-collapse: collapse; border-top: 2px solid #ddd;">
                     <thead>
                         <tr>
-                            <th style="font-weight: normal;">S.No</th>
-                            <th style="font-weight: normal;">Department Name</th>
-                            <th style="font-weight: normal;">Work Order Number</th>
-                            <th style="font-weight: normal;">Project Value</th>
-                            <th style="font-weight: normal;">Project Start Date</th>
-                            <th style="font-weight: normal;">Project End Date</th>
-                            <th style="font-weight: normal; display: none;">Project End Date</th>
-                            <th style="font-weight: normal; display: none;">Project End Date</th>
-                            <th style="font-weight: normal; display: none;">Project End Date</th>
-                            <th style="font-weight: normal; display: none;">Project End Date</th>
-                            <th style="font-weight: normal; display: none;">Project End Date</th>
-                            <th style="font-weight: normal; display: none;">Project End Date</th>
-                            <th style="font-weight: normal; display: none;">Project End Date</th>
-                            <th style="font-weight: normal; display: none;">Project End Date</th>
-                            <th style="font-weight: normal; display: none;">Project End Date</th>
-                            <th style="font-weight: normal;">Buyer Designation</th>
+                            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">S.No</th>
+                            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Department Name</th>
+                            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Work Order Number</th>
+                            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Project Value</th>
+                            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Project Start Date</th>
+                            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Project End Date</th>
+                            <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
+                            <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
+                            <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
+                            <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
+                            <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
+                            <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
+                            <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
+                            <th style="font-weight: normal; display: none; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
+                            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Buyer Designation</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr class="claimRow" id="claimRow">
-                            <td><button type="button" id="clearAllButton" class="btn btn-light" onclick="clearClaimsDetailsTable()">Clear</button></td>
-                            <td><input type="text" class="form-control workOrderNumber" required ></td>
-                            <td><input type="text" class="form-control buyerDepartment" required></td>
-                            <td><input type="text" class="form-control projectValue" required></td>
-                            <td><input type="text" class="form-control startDate" required></td>
-                            <td><input type="text" class="form-control endDate" required></td>
-                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                            <td style="display:none;"><input type="text"  class="form-control endDate" required ></td>
-                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                            <td><input type="text" class="form-control BuyerDesignation" required></td>
+                            <td style="border: none; padding: 12px 8px;">
+                                <button type="button" id="clearAllButton" class="btn btn-light" onclick="clearClaimsDetailsTable()">Clear</button>
+                            </td>
+                            <td style="border: none; padding: 12px 8px;"><input type="text" class="form-control workOrderNumber" required></td>
+                            <td style="border: none; padding: 12px 8px;"><input type="text" class="form-control buyerDepartment" required></td>
+                            <td style="border: none; padding: 12px 8px;"><input type="text" class="form-control projectValue" required></td>
+                            <td style="border: none; padding: 12px 8px;"><input type="text" class="form-control startDate" required></td>
+                            <td style="border: none; padding: 12px 8px;"><input type="text" class="form-control endDate" required></td>
+                            <td style="display:none; border: none;"><input type="text" class="form-control" required></td>
+                            <td style="display:none; border: none;"><input type="text" class="form-control" required></td>
+                            <td style="display:none; border: none;"><input type="text" class="form-control" required></td>
+                            <td style="display:none; border: none;"><input type="text" class="form-control" required></td>
+                            <td style="display:none; border: none;"><input type="text" class="form-control" required></td>
+                            <td style="display:none; border: none;"><input type="text" class="form-control" required></td>
+                            <td style="display:none; border: none;"><input type="text" class="form-control" required></td>
+                            <td style="display:none; border: none;"><input type="text" class="form-control" required></td>
+                            <td style="display:none; border: none;"><input type="text" class="form-control" required></td>
+                            <td style="border: none; padding: 12px 8px;"><input type="text" class="form-control BuyerDesignation" required></td>
                         </tr>
                     </tbody>
                 </table>
 
             </div>
             <div class="buttons" style="padding: 15px 2px 5px 2px; align-items: center; display: flex; justify-content: center;">
-                <button type="button" class="btn btn-success" onclick="generateEmail()">Generate Mail</button>
-                <button type="button" class="btn btn-primary" onclick="copyToClipboard()">Copy Mail</button>
-                <button type="button" class="btn btn-secondary" onclick="copySubject()">Copy Subject</button>
+                <button type="button" class="btn btn-success rounded-pill" onclick="generateEmail()">Generate Mail</button>
+                <button type="button" class="btn btn-primary rounded-pill" onclick="copyToClipboard()">Copy Mail</button>
+                <button type="button" class="btn btn-secondary rounded-pill" onclick="copySubject()">Copy Subject</button>
 
-            </div>
+            </div>           
         </form>
        <hr>
 
