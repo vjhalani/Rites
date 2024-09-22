@@ -242,49 +242,51 @@
             </table>
  
             <label for="claimsDetails" style="font-weight: bold;padding-top: 20px;">Claims Details:</label>
-            <table class="table" id="claimsDetailsTable" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */">
-                <thead>
-                    <tr>
-                        <th style="font-weight: normal;">S.No</th>
-                        <th style="font-weight: normal;">Department Name</th>
-                        <th style="font-weight: normal;">Work Order Number</th>
-                        <th style="font-weight: normal;">Project Value</th>
-                        <th style="font-weight: normal;">Project Start Date</th>
-                        <th style="font-weight: normal;">Project End Date</th>
-                        <th style="font-weight: normal; display: none;">Project End Date</th>
-                        <th style="font-weight: normal; display: none;">Project End Date</th>
-                        <th style="font-weight: normal; display: none;">Project End Date</th>
-                        <th style="font-weight: normal; display: none;">Project End Date</th>
-                        <th style="font-weight: normal; display: none;">Project End Date</th>
-                        <th style="font-weight: normal; display: none;">Project End Date</th>
-                        <th style="font-weight: normal; display: none;">Project End Date</th>
-                        <th style="font-weight: normal; display: none;">Project End Date</th>
-                        <th style="font-weight: normal; display: none;">Project End Date</th>
-                        <th style="font-weight: normal;">Buyer Designation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="claimRow" id="claimRow">
-                        <td><button type="button" id="clearAllButton" class="btn btn-light" onclick="clearClaimsDetailsTable()">Clear</button></td>
-                        <td><input type="text" class="form-control workOrderNumber" required ></td>
-                        <td><input type="text" class="form-control buyerDepartment" required></td>
-                        <td><input type="text" class="form-control projectValue" required></td>
-                        <td><input type="text" class="form-control startDate" required></td>
-                        <td><input type="text" class="form-control endDate" required></td>
-                        <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                        <td style="display:none;"><input type="text"  class="form-control endDate" required ></td>
-                        <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                        <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                        <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                        <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                        <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                        <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                        <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
-                        <td><input type="text" class="form-control BuyerDesignation" required></td>
-                    </tr>
-                </tbody>
+            <div class="table-responsive">
+                <table class="table" id="claimsDetailsTable" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 100%; /* Add shadow */">
+                    <thead>
+                        <tr>
+                            <th style="font-weight: normal;">S.No</th>
+                            <th style="font-weight: normal;">Department Name</th>
+                            <th style="font-weight: normal;">Work Order Number</th>
+                            <th style="font-weight: normal;">Project Value</th>
+                            <th style="font-weight: normal;">Project Start Date</th>
+                            <th style="font-weight: normal;">Project End Date</th>
+                            <th style="font-weight: normal; display: none;">Project End Date</th>
+                            <th style="font-weight: normal; display: none;">Project End Date</th>
+                            <th style="font-weight: normal; display: none;">Project End Date</th>
+                            <th style="font-weight: normal; display: none;">Project End Date</th>
+                            <th style="font-weight: normal; display: none;">Project End Date</th>
+                            <th style="font-weight: normal; display: none;">Project End Date</th>
+                            <th style="font-weight: normal; display: none;">Project End Date</th>
+                            <th style="font-weight: normal; display: none;">Project End Date</th>
+                            <th style="font-weight: normal; display: none;">Project End Date</th>
+                            <th style="font-weight: normal;">Buyer Designation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="claimRow" id="claimRow">
+                            <td><button type="button" id="clearAllButton" class="btn btn-light" onclick="clearClaimsDetailsTable()">Clear</button></td>
+                            <td><input type="text" class="form-control workOrderNumber" required ></td>
+                            <td><input type="text" class="form-control buyerDepartment" required></td>
+                            <td><input type="text" class="form-control projectValue" required></td>
+                            <td><input type="text" class="form-control startDate" required></td>
+                            <td><input type="text" class="form-control endDate" required></td>
+                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
+                            <td style="display:none;"><input type="text"  class="form-control endDate" required ></td>
+                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
+                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
+                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
+                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
+                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
+                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
+                            <td style="display:none;"><input type="text" class="form-control endDate" required ></td>
+                            <td><input type="text" class="form-control BuyerDesignation" required></td>
+                        </tr>
+                    </tbody>
+                </table>
 
-            </table>
+            </div>
             <div class="buttons" style="padding: 15px 2px 5px 2px; align-items: center; display: flex; justify-content: center;">
                 <button type="button" class="btn btn-success" onclick="generateEmail()">Generate Mail</button>
                 <button type="button" class="btn btn-primary" onclick="copyToClipboard()">Copy Mail</button>
