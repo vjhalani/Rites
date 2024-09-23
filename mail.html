@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VSP Varun Jhalani</title>
+    <title>Mails...Varun</title>
     <!-- Add Bootstrap CSS link -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
@@ -137,9 +137,9 @@
         font-weight: normal;
         border-bottom: 2px solid #ddd;
     }
-    #claimsDetailsTable tbody tr:hover {
+    /* #claimsDetailsTable tbody tr:hover {
         background-color: #f9f9f9;
-    }
+    } */
 </style>
 
 </head>
@@ -148,13 +148,13 @@
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center">    
-                <a class="navbar-brand" href="#">Mails...</a>
+                <a class="navbar-brand" href="#">Mails</a>
                 
 
                
             </div>    
                  <!-- 'How to Use' button-->
-<!--                  <a class="btn btn-outline-info btn-sm rounded-pill ml-auto"style="font-style:italic;" href="https://www.loom.com/share/4ea0c7312d894088a7532dc7bfa80631?sid=1fb9806e-1fd1-4618-85ef-4c0b69d3a24a" target="_blank" onclick="window.location.href='#'">
+                 <!-- <a class="btn btn-outline-info btn-sm rounded-pill ml-auto" style="font-style:italic;" href="https://www.loom.com/share/4ea0c7312d894088a7532dc7bfa80631?sid=1fb9806e-1fd1-4618-85ef-4c0b69d3a24a" target="_blank" onclick="window.location.href='#'">
                     How to Use
                 </a>             -->
             <!-- Navbar toggler button for smaller screens-->
@@ -276,15 +276,15 @@
 
             </div>
             <div class="buttons" style="padding: 15px 2px 5px 2px; align-items: center; display: flex; justify-content: center;">
-                <button type="button" class="btn btn-secondary rounded-pill"style="background-color:#896790; border: none" onclick="generateEmail()">Generate Mail</button>
-                <button type="button" class="btn btn-secondary rounded-pill"style="background-color:#896790; border: none" onclick="copyToClipboard()">Copy Mail</button>
-                <button type="button" class="btn btn-secondary rounded-pill"style="background-color:#896790; border: none" onclick="copySubject()">Copy Subject</button>
-
+                <button type="button" class="btn btn-secondary rounded-pill"style="background-color:#896790; border: none; " onclick="generateEmail()">Generate Mail</button>
+                <button type="button" class="btn btn-secondary rounded-pill"style="background-color:#896790; border: none; " onclick="copyToClipboard()">Copy Mail</button>
+                <button type="button" class="btn btn-secondary rounded-pill"style="background-color:#896790; border: none;" onclick="copySubject()">Copy Subject</button>
+                <!-- <button type="button" class="btn btn-outline-light rounded-pill"style="color: #896790; border-color: #896790;" onclick="copyToGSheet()">Copy Record</button> -->
             </div>           
         </form>
        <hr>
 
-        <h3>Email Preview:</h3>
+        <h3 style="text-align: center; letter-spacing: 1px; font-weight: normal;">PREVIEW</h3>
          <div id="emailSubject" style="visibility: none;"></div>
         <div id="emailPreview"></div>
     </div>
