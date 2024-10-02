@@ -355,7 +355,7 @@ document.getElementById('clearAllButton').addEventListener('click', clearClaimsD
             window.getSelection().addRange(range);
             document.execCommand('copy');
             window.getSelection().removeAllRanges();
-            showPopup('Email Copied to Clipboard!');
+            showPopup('Copied to clipboard.');
         }
 
     function copySubject() {
@@ -366,7 +366,7 @@ document.getElementById('clearAllButton').addEventListener('click', clearClaimsD
             window.getSelection().addRange(range);
             document.execCommand('copy');
             window.getSelection().removeAllRanges();
-            showPopup('Subject Copied to Clipboard!');
+            showPopup('Copied to clipboard.');
         }
 
         document.addEventListener('contextmenu', function (e) {
@@ -476,7 +476,7 @@ document.getElementById('clearAllButton').addEventListener('click', clearClaimsD
 
             // Copy data to clipboard
             navigator.clipboard.writeText(dataToCopy.join('\n')).then(function() {
-                showPopup('Data Copied to Clipboard!');
+                showPopup('Copied to clipboard.');
                 // alert("Data copied to clipboard!");
             }, function(err) {
                 console.error("Could not copy text: ", err);
