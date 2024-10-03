@@ -192,7 +192,7 @@
     const buyerDepartmentInput = document.querySelector('.buyerDepartment');
 
     // Initially, keep the buyerDepartment field disabled
-    buyerDepartmentInput.disabled = true;
+    // buyerDepartmentInput.disabled = true;
 
     // Add an event listener for the paste event on the feedid field
     feedIdInput.addEventListener('paste', function (e) {
@@ -202,7 +202,7 @@
             feedIdInput.disabled = true;
 
             // Enable the buyerDepartment field after the data is pasted
-            buyerDepartmentInput.disabled = false;
+            // buyerDepartmentInput.disabled = false;
         }, 0);
     });
     </script>
@@ -315,9 +315,24 @@ document.getElementById('clearAllButton').addEventListener('click', clearClaimsD
         
         document.getElementById('emailPreview').innerHTML = emailTemplate;
         document.getElementById('emailSubject').innerText = subject;
-        document.getElementById('claimRow').scrollIntoView(); // Scroll down while pressing generate button
+        // document.getElementById('claimRow').scrollIntoView(); // Scroll down while pressing generate button
     }
 
+    // Event listener to email generatE on input or change for vendor details table
+    var vendorDetailsTable = document.getElementById('vendorDetailsTable');
+    
+    vendorDetailsTable.addEventListener('input', function() {
+        generateEmail();
+    });
+
+    vendorDetailsTable.addEventListener('change', function() {
+        generateEmail();
+    });
+
+    // Add paste event listener to handle pasting rows for claim details table
+    vendorDetailsTable.addEventListener('paste', function() {
+        setTimeout(generateEmail, 0); // Use timeout to wait for paste to finish
+    });
     // Event listener to email generatE on input or change
     var claimsDetailsTable = document.getElementById('claimsDetailsTable');
     
@@ -333,7 +348,8 @@ document.getElementById('clearAllButton').addEventListener('click', clearClaimsD
     claimsDetailsTable.addEventListener('paste', function() {
         setTimeout(generateEmail, 0); // Use timeout to wait for paste to finish
     });
-    
+
+
     function showPopup(message) {
         // Set the popup message
         document.getElementById('popupMessage').innerText = message;
