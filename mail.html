@@ -187,136 +187,142 @@
         <div id="emailPreview"></div>
     </div>
     <script>
-    // Select the feedid input field using its class
-    const feedIdInput = document.querySelector('.feedid');
-    const buyerDepartmentInput = document.querySelector('.buyerDepartment');
+        function clearClaimsDetailsTable() {
+            // Clear rows in the claims details table (except the first row)
+            var claimsDetailsTable = document.getElementById('claimsDetailsTable');
+            var claimsDetailsBody = claimsDetailsTable.getElementsByTagName('tbody')[0];
 
-    // Initially, keep the buyerDepartment field disabled
-    // buyerDepartmentInput.disabled = true;
+            // Getting all rows in the table body
+            var rows = claimsDetailsBody.getElementsByTagName('tr');
 
-    // Add an event listener for the paste event on the feedid field
-    feedIdInput.addEventListener('paste', function (e) {
-        // Wait for the data to be pasted
-        setTimeout(function () {
-            // Disable the feedId input after data is pasted
-            feedIdInput.disabled = true;
+            // Iterating from the second row (index 1) to the last row and removing them
+            while (rows.length > 1) {
+                claimsDetailsBody.removeChild(rows[1]);
+            }
 
-            // Enable the buyerDepartment field after the data is pasted
-            // buyerDepartmentInput.disabled = false;
-        }, 0);
-    });
-    </script>
-    <script>
-function clearClaimsDetailsTable() {
-    // Clear rows in the claims details table (except the first row)
-    var claimsDetailsTable = document.getElementById('claimsDetailsTable');
-    var claimsDetailsBody = claimsDetailsTable.getElementsByTagName('tbody')[0];
+            // Clear the generated mail content
+            var generatedMail = document.getElementById('generatedMail');
+            if (generatedMail) {
+                generatedMail.textContent = ''; // Clear the mail content
+            }
 
-    // Getting all rows in the table body
-    var rows = claimsDetailsBody.getElementsByTagName('tr');
-
-    // Iterating from the second row (index 1) to the last row and removing them
-    while (rows.length > 1) {
-        claimsDetailsBody.removeChild(rows[1]);
-    }
-
-    // Clear the generated mail content
-    var generatedMail = document.getElementById('generatedMail');
-    if (generatedMail) {
-        generatedMail.textContent = ''; // Clear the mail content
-    }
-
-    // Clear the email preview and subject
-    document.getElementById('emailPreview').innerHTML = ''; // Clear the email preview content
-    document.getElementById('emailSubject').innerText = ''; // Clear the email subject
-}
-
-// event listener to the clear button
-document.getElementById('clearAllButton').addEventListener('click', clearClaimsDetailsTable);
-    </script>
-
-    <script>
-    function generateEmail() {
-        var vendorName = document.getElementById('vendorDetailsTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByClassName('seller')[0].value;
-        var serviceName = document.getElementById('vendorDetailsTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByClassName('category')[0].value;
-        var feedId = document.getElementById('vendorDetailsTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByClassName('feedid')[0].value;
-
-        var claimsDetailsTable = document.getElementById('claimsDetailsTable');
-        var claimsDetailsBody = claimsDetailsTable.getElementsByTagName('tbody')[0];
-        var rows = claimsDetailsBody.getElementsByTagName('tr');
-        var claimsDetails = '';
-
-        for (var i = 1; i < rows.length; i++) { // Start from 1 to exclude header row
-            var cells = rows[i].getElementsByTagName('td');
-            var buyerDepartment = cells[1].textContent;
-            var workOrderNumber = cells[2].textContent;
-            var projectValue = cells[3].textContent;
-            var startDate = cells[4].textContent;
-            var endDate = cells[5].textContent;
-            var buyerDesignation = cells[14].textContent;
-
-            claimsDetails += `<tr>
-                                <td>${i}</td>
-                                <td>${workOrderNumber}</td>
-                                <td>${projectValue}</td>
-                                <td>${startDate}</td>
-                                <td>${endDate}</td>
-                                <td></td>
-                                <td></td>
-                            </tr>`;
+            // Clear the email preview and subject
+            document.getElementById('emailPreview').innerHTML = ''; // Clear the email preview content
+            document.getElementById('emailSubject').innerText = ''; // Clear the email subject
         }
-        var buyerName = buyerDesignation + ', ' + buyerDepartment; // Concatenate buyer name with designation and department separated by comma
-        var subject = `To seek confirmation regarding ${vendorName} registering as a service provider on the GeM portal.`;
-        var emailTemplate = `Dear Sir/Ma’am,<br>
-        Greetings from GeM!<br>
-        <br>
-        This is to seek confirmation regarding <b>${vendorName}</b> registering as a service provider on the GeM portal. The seller claims to have provided the following:<br>
-        <br>
-        <b>Service Name:</b> ${serviceName}<br>
-        <b>Buyer Name:</b> ${buyerName}<br>
-        <br>
-        Below are the details shared by the service provider (Feed ID: <b>${feedId}</b>) on the GeM portal for further verification.<br>
-        <br>
-        <table style="border: 1px solid black; border-collapse: collapse;">
-            <tr>
-                <th rowspan="2">S.No.</th>
-                <th colspan="4">Claims as per the Service Provider</th>
-                <th colspan="2">To be filled by the recipient department</th>
-            </tr>
-            <tr>
-                <th>Work Order Number</th>
-                <th>Project Value</th>
-                <th>Project Start Date</th>
-                <th>Project End Date</th>
-                <th>Confirmation (Y/N)</th>
-                <th>Remarks(If any)</th>
-            </tr>
-            ${claimsDetails}
-        </table>
-        <br>
-        <i><b>Note:</b> The completion document/work order/relevant documents (the document uploaded by the service provider) has been attached for your reference.</i><br>
-        <br>
-        Please revert to the same mail in Yes/No if credentials mentioned above are correct as per your records.<br>
-        <br>
-        Yes–If documents/details provided are authentic<br>
-        No–If documents/details provided are not authentic<br>
-        <br>
-        In this regard, we request you to please confirm whether the document submitted by the service provider is true and correct or not, The document uploaded by the service provider has been attached for your reference.<br>
-        <br>
-        Request you to please reply to the mail at the earliest of your convenience or within the next 4 days. In case of any query, please contact the undersigned.<br>
-        <br>
-        Also, please be informed that the GeM is a trust-based portal and therefore, it is imminent to verify the documents submitted by the service providers from the concerned Buyer department, otherwise, it may lead to possible forgery at the GeM portal. Considering the gravity of the situation, we request you to please take this on an urgent basis.<br>
-        <br>
-        Thanking You,<br>
-        Ganesh K Ingole<br>
-        Contact: 8600017722<br>
-        Government e-Marketplace (GeM)<br>
-        Ministry of Commerce & Industry`;
-        
-        document.getElementById('emailPreview').innerHTML = emailTemplate;
-        document.getElementById('emailSubject').innerText = subject;
-        // document.getElementById('claimRow').scrollIntoView(); // Scroll down while pressing generate button
+
+        // event listener to the clear button
+        document.getElementById('clearAllButton').addEventListener('click', clearClaimsDetailsTable);
+    </script>
+
+    <script>
+
+    function generateEmail() {
+        // Get the number of rows in vendorDetailsTable
+        var vendorRows = document.getElementById('vendorDetailsTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+        // Get the number of rows in claimsDetailsTable
+        var claimsRows = document.getElementById('claimsDetailsTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+        // Check if both tables have data (more than 1 row because of the header)
+        if (vendorRows.length <= 0) {
+            // showPopup('Please fill in the Vendor Details Table before generating the email.');
+            return; // Exit the function if vendor details table is empty
+        }
+
+    // Check if the first column of the first row in vendorDetailsTable is blank
+    var firstVendorRowCells = vendorRows[0].getElementsByTagName('td');
+    if (firstVendorRowCells.length > 0) {
+        var firstColumnInput = firstVendorRowCells[0].querySelector('input'); // Get the input element from the first column
+        if (!firstColumnInput || !firstColumnInput.value.trim()) { // If the input field is blank
+            // showPopup('Please ensure the first column of the Vendor Details Table is filled before generating the email.');
+            return; // Exit the function if the first column is blank
+        }
     }
+        if (claimsRows.length <= 1) {
+            // showPopup('Please fill in the Claims Details Table before generating the email.');
+            return; // Exit the function if claims details table is empty
+        }
+
+    var vendorName = vendorRows[0].getElementsByClassName('seller')[0].value;
+    var serviceName = vendorRows[0].getElementsByClassName('category')[0].value;
+    var feedId = vendorRows[0].getElementsByClassName('feedid')[0].value;
+
+    var claimsDetailsBody = claimsDetailsTable.getElementsByTagName('tbody')[0];
+    var claimsDetails = '';
+
+    for (var i = 1; i < claimsRows.length; i++) { // Start from 1 to exclude header row
+        var cells = claimsRows[i].getElementsByTagName('td');
+        var buyerDepartment = cells[1].textContent;
+        var workOrderNumber = cells[2].textContent;
+        var projectValue = cells[3].textContent;
+        var startDate = cells[4].textContent;
+        var endDate = cells[5].textContent;
+        var buyerDesignation = cells[14].textContent;
+
+        claimsDetails += `<tr>
+                            <td>${i}</td>
+                            <td>${workOrderNumber}</td>
+                            <td>${projectValue}</td>
+                            <td>${startDate}</td>
+                            <td>${endDate}</td>
+                            <td></td>
+                            <td></td>
+                        </tr>`;
+    }
+
+    var buyerName = buyerDesignation + ', ' + buyerDepartment; // Concatenate buyer name with designation and department separated by comma
+    var subject = `To seek confirmation regarding ${vendorName} registering as a service provider on the GeM portal.`;
+    var emailTemplate = `Dear Sir/Ma’am,<br>
+    Greetings from GeM!<br>
+    <br>
+    This is to seek confirmation regarding <b>${vendorName}</b> registering as a service provider on the GeM portal. The seller claims to have provided the following:<br>
+    <br>
+    <b>Service Name:</b> ${serviceName}<br>
+    <b>Buyer Name:</b> ${buyerName}<br>
+    <br>
+    Below are the details shared by the service provider (Feed ID: <b>${feedId}</b>) on the GeM portal for further verification.<br>
+    <br>
+    <table style="border: 1px solid black; border-collapse: collapse;">
+        <tr>
+            <th rowspan="2">S.No.</th>
+            <th colspan="4">Claims as per the Service Provider</th>
+            <th colspan="2">To be filled by the recipient department</th>
+        </tr>
+        <tr>
+            <th>Work Order Number</th>
+            <th>Project Value</th>
+            <th>Project Start Date</th>
+            <th>Project End Date</th>
+            <th>Confirmation (Y/N)</th>
+            <th>Remarks(If any)</th>
+        </tr>
+        ${claimsDetails}
+    </table>
+    <br>
+    <i><b>Note:</b> The completion document/work order/relevant documents (the document uploaded by the service provider) has been attached for your reference.</i><br>
+    <br>
+    Please revert to the same mail in Yes/No if credentials mentioned above are correct as per your records.<br>
+    <br>
+    Yes–If documents/details provided are authentic<br>
+    No–If documents/details provided are not authentic<br>
+    <br>
+    In this regard, we request you to please confirm whether the document submitted by the service provider is true and correct or not, The document uploaded by the service provider has been attached for your reference.<br>
+    <br>
+    Request you to please reply to the mail at the earliest of your convenience or within the next 4 days. In case of any query, please contact the undersigned.<br>
+    <br>
+    Also, please be informed that the GeM is a trust-based portal and therefore, it is imminent to verify the documents submitted by the service providers from the concerned Buyer department, otherwise, it may lead to possible forgery at the GeM portal. Considering the gravity of the situation, we request you to please take this on an urgent basis.<br>
+    <br>
+    Thanking You,<br>
+    Ganesh K Ingole<br>
+    Contact: 8600017722<br>
+    Government e-Marketplace (GeM)<br>
+    Ministry of Commerce & Industry`;
+
+    document.getElementById('emailPreview').innerHTML = emailTemplate;
+    document.getElementById('emailSubject').innerText = subject;
+    document.getElementById('claimRow').scrollIntoView(); // Scroll down while pressing generate button
+    // showPopup('Mail generated.');
+}
 
     // Event listener to email generatE on input or change for vendor details table
     var vendorDetailsTable = document.getElementById('vendorDetailsTable');
@@ -393,6 +399,58 @@ document.getElementById('clearAllButton').addEventListener('click', clearClaimsD
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.8/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+                // Attach the handleVendorPaste function to the paste event of the vendorDetailsTable
+                document.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('vendorDetailsTable').addEventListener('paste', handleVendorPaste);
+        });
+        function handleVendorPaste(e) {
+    e.preventDefault(); // Prevent default paste behavior
+
+    var clipboardData = e.clipboardData || window.clipboardData;
+    var pastedData = clipboardData.getData('text');
+
+    // Split pasted data into rows
+    var rows = pastedData.trim().split('\n');
+    var tbody = document.getElementById('vendorDetailsTable').getElementsByTagName('tbody')[0];
+    var firstRowCells = tbody.getElementsByTagName('tr')[0].getElementsByTagName('td');
+
+    // Check if the number of pasted columns matches the table columns
+    for (var i = 0; i < rows.length; i++) {
+        var rowData = rows[i].split('\t');
+        if (rowData.length !== firstRowCells.length) {
+            alert('Pasted data does not have the correct number of columns.');
+            return;
+        }
+
+        // If there are fewer table rows than data, add rows dynamically
+        if (i >= tbody.getElementsByTagName('tr').length) {
+            var newRow = document.createElement('tr');
+            for (var k = 0; k < firstRowCells.length; k++) {
+                var newCell = document.createElement('td');
+                newCell.innerHTML = '<input type="text" class="form-control" required>';
+                newRow.appendChild(newCell);
+            }
+            tbody.appendChild(newRow);
+        }
+
+        // Get the table row to update
+        var currentRow = tbody.getElementsByTagName('tr')[i];
+        var currentRowCells = currentRow.getElementsByTagName('td');
+
+        // Update the cells with pasted data
+        for (var j = 0; j < rowData.length; j++) {
+            var cellInput = currentRowCells[j].getElementsByTagName('input')[0];
+            if (cellInput) {
+                cellInput.value = rowData[j].trim();
+            }
+        }
+    }
+
+    // Call generateEmail after pasting to update the email preview
+    setTimeout(generateEmail, 0); // Wait for the paste to finish before generating the email
+}
+
+
                 document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('claimsDetailsTable').addEventListener('paste', handlePaste);
                 });
@@ -494,53 +552,8 @@ document.getElementById('clearAllButton').addEventListener('click', clearClaimsD
             }, function(err) {
                 console.error("Could not copy text: ", err);
             });
-}
-
-        function handleVendorPaste(e) {
-            var clipboardData, pastedData;
-
-            // Get clipboard data
-            clipboardData = e.clipboardData || window.clipboardData;
-            pastedData = clipboardData.getData('text');
-
-            // Split pasted data into rows and columns
-            var rows = pastedData.split('\n');
-            var firstRowCells = document.getElementById('vendorDetailsTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr')[0].getElementsByTagName('td');
-
-            // Loop through each row of pasted data
-            for (var i = 0; i < rows.length; i++) {
-                var rowData = rows[i].split('\t');
-                if (rowData.length !== firstRowCells.length) {
-                    alert('Pasted data does not have the correct number of columns.');
-                    return;
-                }
-
-                // Update the cells of the first row with pasted data
-                for (var j = 0; j < rowData.length; j++) {
-                    // Check if the cell exists
-                    if (firstRowCells[j]) {
-                        // Update the cell value
-                        firstRowCells[j].getElementsByTagName('input')[0].value = rowData[j].trim();
-                    } else {
-                        // If the number of cells in the pasted data exceeds the number of cells in the table, add a new row
-                        var newRow = document.createElement('tr');
-                        for (var k = 0; k < rowData.length; k++) {
-                            var newCell = document.createElement('td');
-                            newCell.innerHTML = '<input type="text" class="form-control" value="' + rowData[k].trim() + '" required>';
-                            newRow.appendChild(newCell);
-                        }
-                        document.getElementById('vendorDetailsTable').getElementsByTagName('tbody')[0].appendChild(newRow);
-                    }
-                }
-            }
-
-            e.preventDefault(); // Prevent default paste behavior
         }
-
-        // Attach the handleVendorPaste function to the paste event of the vendorDetailsTable
-        document.addEventListener('DOMContentLoaded', function () {
-            document.getElementById('vendorDetailsTable').addEventListener('paste', handleVendorPaste);
-        });
+ 
     </script>
 </body>
 </html>
