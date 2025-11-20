@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Medical Category Mail Generator — Inline Paste</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
+h2 { color:#4b3b75; text-align:center; margin-bottom:18px; }
+label{ font-weight:bold; display:block; margin-bottom:6px; }
+textarea, input, select { width:100%; padding:8px; margin-bottom:10px; border-radius:5px; border:1px solid #ccc; box-shadow:0 2px 4px rgba(0,0,0,0.05); box-sizing:border-box; }
+.table thead th { font-weight:600; text-transform:uppercase; background:#f7f5fa; font-size:.85rem; }
+.table td input, .table td select { width:100%; padding:6px; border-radius:5px; border:1px solid #ccc; }
+.btn-inline { font-size:.8rem; padding:4px 10px; border-radius:20px; margin-left:6px; border:none; cursor:pointer; color:white; }
+.addBtn { background:#896790; } .addBtn:hover { background:#755a8c; }
+.removeBtn { background:#e74c3c; } .removeBtn:hover { background:#c0392b; }
+#mailPreview { white-space:pre-wrap; background:#fff; padding:18px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.1); margin-top:20px; font-family:Consolas,monospace; max-width:900px; margin-left:auto; margin-right:auto; }
+.small-muted { font-size:.9rem; color:#666; }
+.container { max-width:1100px; margin:0 auto; }
+.actions { text-align:center; margin-top:12px; }
+</style>
+</head>
+<body>
+<div class="container">
+  <h2>Medical Category Mail Generator</h2>
+
+  <label>Paste Seller Name & ID together:</label>
+  <textarea id="inputBox" placeholder="Example: VAE-12345 M/s ABC Healthcare" rows="2"></textarea>
+
+  <div class="small-muted mb-2">Paste category blocks directly into any <b>Applied Category Name</b> cell. Blocks must be separated by a single blank line. The pasted blocks will be distributed downward starting from the row you pasted into.</div>
+
+  <div class="table-responsive">
+    <table class="table table-bordered" id="categoryTable">
+      <thead>
+        <tr>
+          <th>Sr No</th>
+          <th>Applied Category Name</th>
+          <th>Exemption Document Uploaded</th>
+          <th>Exemption Allowed</th>
+          <th>Reference Category in License</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <!-- mark this input as applied-col via data-col for listener detection -->
+          <td><input data-col="applied" type="text" ></td>
+          <td><input type="text"></td>
+          <td>
+            <select>
+              <option value="">Select</option>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
+          </td>
+          <td><input type="text"></td>
+          <td class="text-center">
+            <button class="btn-inline removeBtn" onclick="removeRow(this)">×</button>
+            <button class="btn-inline addBtn" onclick="addRowAfter(this)">+</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="actions">
+    <button class="btn-inline addBtn" onclick="copyMail()">Copy Mail</button>
+    <button class="btn-inline addBtn" onclick="copySubject()">Copy Subject</button>
+  </div>
+
+  <h5 class="mt-4 text-center"><u>Mail Preview (updates live)</u></h5>
+  <div id="mailPreview"></div>
+</div>
+
+<script>
+/* ---------- Row management helpers ---------- */
+function updateRowNumbers(){
+  const rows = document.querySelectorAll('#categoryTable tbody tr');
+  rows.forEach((r,i)=> r.cells[0].innerText = i+1);
+}
+
+function createRowHTML(){
+  return `
+    <td></td>
+    <td><input data-col="applied" type="text"></td>
+    <td><input type="text"></td>
+    <td>
+      <select>
+        <option value="">Select</option>
+        <option value="Yes">Yes</option>
+        <option value="No">No</option>
+      </select>
+    </td>
+    <td><input type="text"></td>
+    <td class="text-center">
+      <button class="btn-inline removeBtn" onclick="removeRow(this)">×</button>
+      <button class="btn-inline addBtn" onclick="addRowAfter(this)">+</button>
+    </td>
+  `;
+}
+
+function addRowAfter(btn){
+  const tbody = document.querySelector('#categoryTable tbody');
+  const row = btn.closest('tr');
+  const idx = Array.from(tbody.rows).indexOf(row);
+  const newRow = tbody.insertRow(idx+1);
+  newRow.innerHTML = createRowHTML();
+  updateRowNumbers();
+  // attach listeners created later by initEventDelegation automatically runs because we use delegation
+}
+
+function removeRow(btn){
+  const tbody = document.querySelector('#categoryTable tbody');
+  if(tbody.rows.length === 1) return;
+  const row = btn.closest('tr');
+  row.remove();
+  updateRowNumbers();
+  generateMail(); // live update after row removal
+}
+
+/* if last row is filled, auto add new row */
+function checkAutoAddRowFromRow(row){
+  const tbody = document.querySelector('#categoryTable tbody');
+  const lastRow = tbody.rows[tbody.rows.length-1];
+  const inputs = lastRow.querySelectorAll('input, select');
+  let filled = true;
+  inputs.forEach(inp=>{
+    if(inp.tagName === 'SELECT') { if(inp.value === '') filled=false; }
+    else { if(inp.value.trim() === '') filled=false; }
+  });
+  if(filled){
+    // append a new blank row at end
+    const newRow = tbody.insertRow();
+    newRow.innerHTML = createRowHTML();
+    updateRowNumbers();
+  }
+}
+
+/* ---------- Paste handling in applied column ---------- */
+const tbody = document.querySelector('#categoryTable tbody');
+
+tbody.addEventListener('paste', function(e){
+    const target = e.target;
+    if(!(target && target.dataset && target.dataset.col === 'applied')) return;
+
+    e.preventDefault();
+
+    const text = (e.clipboardData || window.clipboardData).getData('text');
+    if(!text.trim()) return;
+
+    // Split into lines
+    const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
+
+    // Extract ONLY column 2 from each row
+    const extracted = lines.map(line => {
+        const cols = line.split(/\t+/);   // tab-separated (standard when you copy tables)
+        return cols[1] ? cols[1].trim() : "";  // only column 2
+    }).filter(v => v !== "");
+
+    if(extracted.length === 0) return;
+
+    // Identify starting row
+    const tbodyEl = document.querySelector('#categoryTable tbody');
+    const rows = Array.from(tbodyEl.rows);
+    const startIndex = rows.indexOf(target.closest('tr'));
+
+    // Ensure enough rows exist
+    const need = (startIndex + extracted.length) - rows.length;
+    for(let i = 0; i < need; i++){
+        const newRow = tbodyEl.insertRow();
+        newRow.innerHTML = createRowHTML();
+    }
+
+    // Paste extracted values into Applied Category column only
+    extracted.forEach((val, i) => {
+        const row = tbodyEl.rows[startIndex + i];
+        const applied = row.querySelector('input[data-col="applied"]');
+        applied.value = val;
+    });
+
+    updateRowNumbers();
+    generateMail();
+});
+
+/* ---------- Live preview generation (real-time) ---------- */
+function extractData(){
+  const raw = document.getElementById('inputBox').value.trim();
+  const match = raw.match(/VAE[-\s]?(\d+)/i);
+  const id = match ? match[1] : '';
+  const seller = raw.replace(match ? match[0] : '', '').trim();
+  return { id, seller };
+}
+
+function generateMail(){
+  const { id, seller } = extractData();
+  const rows = document.querySelectorAll('#categoryTable tbody tr');
+
+  let tableText = "Sr No | Applied Category | Exemption Doc | Exemption Allowed | Reference Category\n";
+  tableText += "---------------------------------------------------------------------\n";
+
+  rows.forEach((row,i)=>{
+    const inputs = row.querySelectorAll('input, select');
+    // skip completely empty rows
+    const allEmpty = Array.from(inputs).every(inp=>{
+      if(inp.tagName === 'SELECT') return inp.value === '';
+      return inp.value.trim() === '';
+    });
+    if(allEmpty) return;
+
+    const applied = (inputs[0] && inputs[0].value) ? inputs[0].value : '-';
+    const doc = (inputs[1] && inputs[1].value) ? inputs[1].value : '-';
+    const allowed = (inputs[2] && inputs[2].value) ? inputs[2].value : '-';
+    const ref = (inputs[3] && inputs[3].value) ? inputs[3].value : '-';
+    tableText += `${i+1} | ${applied} | ${doc} | ${allowed} | ${ref}\n`;
+  });
+
+  const mail = `Subject: Request for advice for MEDICAL CATEGORIES for VAE ID ${id} Applied by M/s ${seller}
+
+Sir,
+
+Following VAE application has been received related to medical device/drugs_medicines categories:
+
+VAE No.: ${id}
+Seller organization name: M/s ${seller}
+
+The applicant has applied for the categories mentioned below along with the Medical device Licence/Drug Licence:
+
+${tableText}
+
+The VAE Application and Medical device Licence/Drug Licence are attached for your kind reference.
+
+Kindly advise for which of the applied categories the exemption may be allowed based on the uploaded License.
+
+Regards,
+`;
+  document.getElementById('mailPreview').innerText = mail;
+  return mail;
+}
+
+/* copy subject */
+function copySubject(){
+  const { id, seller } = extractData();
+  const subject = `Request for advice for MEDICAL CATEGORIES for VAE ID ${id} Applied by M/s ${seller}.`;
+  navigator.clipboard.writeText(subject).then(()=> alert('Subject copied to clipboard'));
+}
+
+/* copy whole mail */
+function copyMail(){
+  const mail = generateMail();
+  navigator.clipboard.writeText(mail).then(()=> alert('Mail copied to clipboard'));
+}
+
+/* ---------- Live input listeners (real-time) ---------- */
+// update preview when seller input changes
+document.getElementById('inputBox').addEventListener('input', generateMail);
+
+// event delegation for input changes in table (any input/select)
+tbody.addEventListener('input', function(e){
+  // if change happened in applied column, no extra handling required (paste handler already triggers preview)
+  generateMail();
+
+  // if last row was edited, check for auto-append
+  // find the row that contains the target, and run auto-add check
+  const row = e.target.closest('tr');
+  if(row) checkAutoAddRowFromRow(row);
+});
+
+// also listen for change events on selects
+tbody.addEventListener('change', function(){ generateMail(); });
+
+/* initial preview */
+generateMail();
+</script>
+</body>
+</html>
