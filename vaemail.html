@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Medical Category Mail Generator</title>
+<title>VAE Mails</title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <style>
 body { 
@@ -148,8 +148,6 @@ input:focus, select:focus {
     </div>
 <div class="container" >
 
-    <!-- <h2>VAE Mails</h2> -->
-
     <label>Paste Seller Name & ID together:</label>
   <input id="inputBox" type="text" placeholder="Example: VAE-12345 M/s ABC Healthcare" style="width:100%; padding:10px 14px; border-radius:8px; border:1px solid #b8a8cc; background:#faf7ff; font-size:15px; box-shadow:0 1px 4px rgba(0,0,0,0.08); outline:none; transition:0.2s;" onfocus="this.style.borderColor='#896790'" onblur="this.style.borderColor='#b8a8cc'" />    <table class="table table-bordered" id="categoryTable" style="box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); width: 100%; border-collapse: collapse; border-top: 2px solid #ddd;">
         <thead>
@@ -158,7 +156,7 @@ input:focus, select:focus {
 
             <th class="hiddenCol">Hidden1</th> <!-- HIDDEN BEFORE CATEGORY -->
 
-            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Applied Category Name</th> <!-- VISIBLE -->
+            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">GeM Category Name (Applied for)</th> <!-- VISIBLE -->
 
             <th class="hiddenCol">Product</th>
             <th class="hiddenCol">CategoryCopy</th>
@@ -167,10 +165,10 @@ input:focus, select:focus {
             <th class="hiddenCol">YesNo</th>
             <th class="hiddenCol">Dash</th>
 
-            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Exemption Document Uploaded</th>
-            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Exemption Allowed</th>
-            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Reference Category in License</th>
-            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;">Actions</th>
+            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;" class="hiddenCol">Type of Product</th>
+            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;" class="hiddenCol">VAE No.</th>
+            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;" class="hiddenCol">Date of Email to Approver</th>
+            <th style="font-weight: normal; border: none; border-bottom: 2px solid #ddd; padding: 12px 8px;"></th>
           </tr>
         </thead>
 
@@ -189,13 +187,13 @@ input:focus, select:focus {
             <td class="hiddenCol"><input></td>
             <td class="hiddenCol"><input></td>
 
-            <td style="border: none; padding: 12px 8px;"><input></td>
-            <td style="border: none; padding: 12px 8px;">
+            <td style="border: none; padding: 12px 8px;" class="hiddenCol"><input></td>
+            <td style="border: none; padding: 12px 8px;" class="hiddenCol">
               <select>
-                <option value="">Select</option><option>Yes</option><option>No</option>
+                <option value="" class="hiddenCol">Select</option><option>Yes</option><option>No</option>
               </select>
             </td>
-            <td style="border: none; padding: 12px 8px;"><input></td>
+            <td style="border: none; padding: 12px 8px;" class="hiddenCol"><input></td>
             <td style="border: none; padding: 12px 8px;" class="text-center">
               <button class="btn-inline removeBtn" onclick="removeRow(this)">×</button>
               <button class="btn-inline addBtn" onclick="addRowAfter(this)">+</button>
@@ -243,10 +241,10 @@ function createRowHTML(){
     <td class="hiddenCol"><input></td>
     <td class="hiddenCol"><input></td>
 
-    <td style="border: none; padding: 12px 8px;"><input></td>
-    <td style="border: none; padding: 12px 8px;"><select><option value="">Select</option><option>Yes</option><option>No</option></select></td>
-    <td style="border: none; padding: 12px 8px;"><input></td>
-    <td style="border: none; padding: 12px 8px;" class="text-center">
+    <td style="border: none; padding: 12px 8px;" class="hiddenCol"><input></td>
+    <td style="border: none; padding: 12px 8px;" class="hiddenCol"><select><option value="">Select</option><option>Yes</option><option>No</option></select></td>
+    <td style="border: none; padding: 12px 8px;" class="hiddenCol"><input></td>
+    <td style="border: none; padding: 12px 8px;" class="text-center" class="hiddenCol">
       <button class="btn-inline removeBtn" onclick="removeRow(this)">×</button>
       <button class="btn-inline addBtn" onclick="addRowAfter(this)">+</button>
     </td>
@@ -269,59 +267,7 @@ function removeRow(btn){
   generateMail();
 }
 
-
-/* ------ PASTE HANDLING ------ */
-// document.querySelector("#categoryTable tbody").addEventListener("paste", function(e){
-//     const target = e.target;
-//     if (!target || target.dataset.col !== "apply") return;
-
-//     e.preventDefault();
-
-//     let text = (e.clipboardData || window.clipboardData).getData("text").trim();
-
-//     // Split using ALL newline types
-//     let rawLines = text.split(/[\r\n\u2028\u2029\u000B\u0085]+/)
-//                        .map(a => a.trim())
-//                        .filter(a => a !== "");
-
-//     // If lines are not divisible by 6, pad to nearest 6
-//     while (rawLines.length % 6 !== 0) rawLines.push("");
-
-//     // Group into blocks of 6
-//     let blocks = [];
-//     for (let i = 0; i < rawLines.length; i += 6) {
-//         blocks.push(rawLines.slice(i, i + 6));
-//     }
-
-//     let tbody = document.querySelector("#categoryTable tbody");
-//     let rows = Array.from(tbody.rows);
-//     let startIndex = rows.indexOf(target.closest("tr"));
-
-//     // Add rows if needed
-//     let missing = (startIndex + blocks.length) - rows.length;
-//     for (let i = 0; i < missing; i++) {
-//         let newRow = tbody.insertRow();
-//         newRow.innerHTML = createRowHTML();
-//     }
-
-//     // Fill each block into sequential rows
-//     blocks.forEach((block, i) => {
-//         let row = tbody.rows[startIndex + i];
-//         let inputs = row.querySelectorAll("td input");
-
-//         inputs[2].value = block[0]; // product
-//         inputs[1].value = block[1]; // applied category (visible)
-//         inputs[3].value = block[1]; // category copy
-//         inputs[4].value = block[2]; // description
-//         inputs[5].value = block[3]; // qty
-//         inputs[6].value = block[4]; // yes/no
-//         inputs[7].value = block[5]; // dash
-//     });
-
-//     updateRowNumbers();
-//     generateMail();
-// });
-/* ------ ENHANCED PASTE HANDLING ------ */
+/* ------ PASTE HANDLER ------ */
 document.querySelector("#categoryTable tbody").addEventListener("paste", function (e) {
     const target = e.target;
     if (!target || target.dataset.col !== "apply") return;
@@ -335,7 +281,7 @@ document.querySelector("#categoryTable tbody").addEventListener("paste", functio
                        .map(a => a.trim())
                        .filter(a => a !== "");
 
-    // CASE 1: Only ONE line → simply paste into the clicked cell
+    
 // CASE 1: Only ONE line → simply paste into the clicked cell
 if (rawLines.length === 1) {
     target.value = rawLines[0];
@@ -378,7 +324,7 @@ if (rawLines.length === 1) {
         inputs[3].value = block[1]; // category copy
         inputs[4].value = block[2]; // description
         inputs[5].value = block[3]; // qty
-        inputs[6].value = block[4]; // yes/no
+        inputs[6].value = block[1]; // yes/no
         inputs[7].value = block[5]; // dash
     });
 
@@ -406,36 +352,44 @@ function generateMail() {
     const rows = document.querySelectorAll("#categoryTable tbody tr");
 
     // Build HTML table
-    let tableHTML = `
-        <table style="border-collapse: collapse; width: 100%; font-family: Arial; margin-top:10px;">
-            <thead>
-                <tr style="background:#f2eff8; font-weight:bold;">
-                    <th style="border:1px solid #999; padding:6px;">Sr No</th>
-                    <th style="border:1px solid #999; padding:6px;">Applied Category</th>
-                    <th style="border:1px solid #999; padding:6px;">Exemption Doc</th>
-                    <th style="border:1px solid #999; padding:6px;">Exemption Allowed</th>
-                    <th style="border:1px solid #999; padding:6px;">Reference Category</th>
-                </tr>
-            </thead>
-            <tbody>
-    `;
+let tableHTML = `
+<table style="width:100%; border-collapse:collapse; font-family:Arial; margin-top:10px; border:1px solid #000;">
+    
+    <thead>
+        <tr>
+            <th colspan="5" 
+                style="background:#b7d7a8; font-weight:bold; border:1px solid #000; padding:10px; text-align:center;">
+                RITES TEAM
+            </th>
+        </tr>
+        <tr>
+            <th style="background:#b7d7a8; border:1px solid #000; padding:8px;">S.N.</th>
+            <th style="background:#b7d7a8; border:1px solid #000; padding:8px;">Type of Product</th>
+            <th style="background:#b7d7a8; border:1px solid #000; padding:8px;">VAE No</th>
+            <th style="background:#b7d7a8; border:1px solid #000; padding:8px;">Date of Email to Approver</th>
+            <th style="background:#b7d7a8; border:1px solid #000; padding:8px;">GeM Category Name (Applied for)</th>
+        </tr>
+    </thead>
+    <tbody>
+`;
 
 rows.forEach((row, i) => {
 
     const applied = row.cells[2].querySelector("input").value.trim();
-    const doc     = row.cells[9].querySelector("input").value.trim() || "-";
-    const allowed = row.cells[10].querySelector("select").value || "-";
-    const ref     = row.cells[11].querySelector("input").value.trim() || "-";
+    const doc     = row.cells[9].querySelector("input").value.trim() || "";
+    const allowed = row.cells[10].querySelector("select").value || "";
+    const ref     = row.cells[11].querySelector("input").value.trim() || "";
 
     if (applied !== "") {
-        tableHTML += `
-            <tr>
-                <td style="border:1px solid #999; padding:6px;">${i + 1}</td>
-                <td style="border:1px solid #999; padding:6px;">${applied}</td>
-                <td style="border:1px solid #999; padding:6px;">${doc}</td>
-                <td style="border:1px solid #999; padding:6px;">${allowed}</td>
-                <td style="border:1px solid #999; padding:6px;">${ref}</td>
-            </tr>`;
+tableHTML += `
+<tr>
+    <td style="border:1px solid #000; padding:6px;">${i + 1}</td>
+    <td style="border:1px solid #000; padding:6px;">${ref}</td>
+    <td style="border:1px solid #000; padding:6px;">${doc}</td>
+    <td style="border:1px solid #000; padding:6px;">${allowed}</td>
+    <td style="border:1px solid #000; padding:6px;">${applied}</td>
+</tr>`;
+
     }
 });
 
@@ -458,7 +412,7 @@ rows.forEach((row, i) => {
         <p><b>The applicant has applied for the following categories:</b></p>
 
         ${tableHTML}
-
+        <br>
         <p>The <b>VAE Application</b> and <b>Medical Device Licence / Drug Licence</b> 
         are attached for your kind reference.</p>
 
@@ -488,26 +442,9 @@ rows.forEach((row, i) => {
         }, 1000);
     }
 
-
 function copyMail() {
     let html = document.getElementById("mailPreview").innerHTML;
 
-    // Remove ALL background attributes
-    html = html.replace(/background[^;"]*;?/gi, "");
-    html = html.replace(/bgcolor\s*=\s*["'][^"']*["']/gi, "");
-
-    // Remove all <div> wrappers (Gmail adds background only for block-level)
-    html = html.replace(/<div[^>]*>/gi, "");
-    html = html.replace(/<\/div>/gi, "");
-
-    // Replace <p> with <br> to avoid Gmail purple background
-    html = html.replace(/<p[^>]*>/gi, "");
-    html = html.replace(/<\/p>/gi, "<br><br>");
-
-    // Keep table header background only
-    html = html.replace(/<th/gi, `<th style="background:#f2eff8;"`);
-
-    // Create temp element for copying
     const temp = document.createElement("div");
     temp.style.position = "fixed";
     temp.style.opacity = "0";
@@ -515,7 +452,6 @@ function copyMail() {
     temp.innerHTML = html;
     document.body.appendChild(temp);
 
-    // Select and copy
     const range = document.createRange();
     range.selectNodeContents(temp);
     const sel = window.getSelection();
@@ -525,13 +461,13 @@ function copyMail() {
     document.execCommand("copy");
     document.body.removeChild(temp);
 
-    showPopup("Formatted mail copied!");
+    showPopup("Copied to clipboard!");
 }
 
 function copySubject(){
   const { id, seller } = extractData();
   navigator.clipboard.writeText(`Request for advice for MEDICAL CATEGORIES for VAE ID ${id} Applied by M/s ${seller}`)
-    .then(()=> showPopup('Copied to clipboard.'));
+    .then(()=> showPopup('Copied to clipboard!'));
             
 }
 
