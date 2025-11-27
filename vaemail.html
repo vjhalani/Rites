@@ -252,13 +252,18 @@ function createRowHTML(){
 }
 
 function addRowAfter(btn){
+  // Robustly insert a new row immediately after the row that contains btn
   const tbody = document.querySelector("#categoryTable tbody");
   const row = btn.closest("tr");
-  const newRow = tbody.insertRow(row.rowIndex);
+  const newRow = document.createElement("tr");
   newRow.innerHTML = createRowHTML();
+
+  // insert after current row
+  if (row.nextSibling) row.parentNode.insertBefore(newRow, row.nextSibling);
+  else tbody.appendChild(newRow);
+
   updateRowNumbers();
 }
-
 function removeRow(btn){
   const tbody = document.querySelector("#categoryTable tbody");
   if(tbody.rows.length === 1) return;
@@ -286,9 +291,24 @@ document.querySelector("#categoryTable tbody").addEventListener("paste", functio
 if (rawLines.length === 1) {
     target.value = rawLines[0];
 
-    // Force refresh by manually triggering input event on the same field
+    // Trigger refresh events
     target.dispatchEvent(new Event("input", { bubbles: true }));
     target.dispatchEvent(new Event("change", { bubbles: true }));
+
+    // ⭐ AUTO-ADD NEW EMPTY ROW AFTER PASTE ⭐
+    const currentRow = target.closest("tr");
+    const tbody = document.querySelector("#categoryTable tbody");
+    const newRow = document.createElement("tr");
+    newRow.innerHTML = createRowHTML();
+
+    if (currentRow.nextSibling) currentRow.parentNode.insertBefore(newRow, currentRow.nextSibling);
+    else tbody.appendChild(newRow);
+
+    updateRowNumbers();
+
+    // optional: focus the newly added visible input
+    const newApplyInput = newRow.querySelector('input[data-col="apply"]');
+    if (newApplyInput) newApplyInput.focus();
 
     generateMail();
     return;
@@ -351,9 +371,58 @@ function generateMail() {
     const { id, seller } = extractData();
     const rows = document.querySelectorAll("#categoryTable tbody tr");
 
-    // Build HTML table
-let tableHTML = `
-<table style="width:100%; border-collapse:collapse; font-family:Arial; margin-top:10px; border:1px solid #000;">
+    /* -------------------------------
+       TABLE 1 : Simple Applied List
+    --------------------------------*/
+    let listHTML = `
+<table style="width:100%; max-width:100%; border-collapse:collapse; table-layout:fixed; border:1px solid #000; margin-top:10px; word-wrap:break-word; overflow-wrap:break-word;">
+<colgroup>
+    <col style="width:60px;">  <!-- S.No narrow -->
+    <col style="width:auto;">
+</colgroup>
+
+
+ <thead>
+            <tr>
+                <th style="border:1px solid #000; padding:8px; background:#f2f2f2;">S.No.</th>
+                <th style="border:1px solid #000; padding:8px; background:#f2f2f2;">GeM Category Name (Applied for)</th>
+            </tr>
+        </thead>
+        <tbody>
+    `;
+
+    let appliedList = [];
+    rows.forEach((row) => {
+        const applied = row.cells[2].querySelector("input").value.trim();
+        if (applied !== "") appliedList.push(applied);
+    });
+
+    appliedList.forEach((cat, i) => {
+        listHTML += `
+            <tr>
+                <td style="border:1px solid #000; padding:6px;">${i + 1}</td>
+                <td style="border:1px solid #000; padding:6px;">${cat}</td>
+            </tr>
+        `;
+    });
+
+    listHTML += `</tbody></table>`;
+
+    /* --------------------------------------------
+       TABLE 2 : EMPTY RITES TEAM TABLE (only headers)
+    ---------------------------------------------*/
+    let emptyTableHTML = `
+<table style="width:100%; max-width:100%; border-collapse:collapse; table-layout:fixed; border:1px solid #000; margin-top:15px; word-wrap:break-word; overflow-wrap:break-word;">
+<colgroup>
+    <col style="width:50px;">     <!-- S.No narrow -->
+    <col style="width:22%;">      <!-- Type -->
+    <col style="width:22%;">      <!-- VAE No -->
+    <col style="width:22%;">      <!-- Date -->
+    <col style="width:auto;">     <!-- Category -->
+</colgroup>
+
+
+
     
     <thead>
         <tr>
@@ -370,33 +439,20 @@ let tableHTML = `
             <th style="background:#b7d7a8; border:1px solid #000; padding:8px;">GeM Category Name (Applied for)</th>
         </tr>
     </thead>
+
     <tbody>
+        <!-- EMPTY BODY AS REQUESTED -->
+    </tbody>
+</table>
 `;
 
-rows.forEach((row, i) => {
+    /* -------------------------------
+       FINAL MAIL BODY
+    --------------------------------*/
 
-    const applied = row.cells[2].querySelector("input").value.trim();
-    const doc     = row.cells[9].querySelector("input").value.trim() || "";
-    const allowed = row.cells[10].querySelector("select").value || "";
-    const ref     = row.cells[11].querySelector("input").value.trim() || "";
-
-    if (applied !== "") {
-tableHTML += `
-<tr>
-    <td style="border:1px solid #000; padding:6px;">${i + 1}</td>
-    <td style="border:1px solid #000; padding:6px;">${ref}</td>
-    <td style="border:1px solid #000; padding:6px;">${doc}</td>
-    <td style="border:1px solid #000; padding:6px;">${allowed}</td>
-    <td style="border:1px solid #000; padding:6px;">${applied}</td>
-</tr>`;
-
-    }
-});
-
-    tableHTML += `</tbody></table>`;
-
-    // Create formatted email
     const mailHTML = `
+<div style="width:100%; max-width:100%; overflow-wrap:break-word; word-wrap:break-word;">
+
         <div style="font-family:Arial; font-size:14px;">
 
         <p><b>Subject:</b> Request for advice for <b>MEDICAL CATEGORIES</b> for <b>VAE ID ${id}</b> applied by <b>M/s ${seller}</b></p>
@@ -407,21 +463,29 @@ tableHTML += `
         <b>Medical Device / Drugs_Medicines</b> categories:</p>
 
         <p><b>VAE ID.:</b> ${id}<br>
-        <b>Seller Organization Name:</b>${seller}</p>
+        <b>Seller Organization Name:</b> ${seller}</p>
 
         <p><b>The applicant has applied for the following categories:</b></p>
 
-        ${tableHTML}
+        ${listHTML}
+
+        <br><br>
+
+        <p><b>RITES review table:</b></p>
+
+        ${emptyTableHTML}
+
         <br>
+
         <p>The <b>VAE Application</b> and <b>Medical Device Licence / Drug Licence</b> 
         are attached for your kind reference.</p>
 
         <p><b>Kindly advise</b> for which of the applied categories the exemption may be allowed 
         based on the uploaded license.</p>
 
-        <p>Regards,<br>
-        </p>
+        <p>Regards,<br></p>
 
+        </div>
         </div>
     `;
 
@@ -429,6 +493,7 @@ tableHTML += `
 
     return mailHTML;
 }
+
     function showPopup(message) {
         // Set the popup message
         document.getElementById('popupMessage').innerText = message;
@@ -473,6 +538,21 @@ function copySubject(){
 
 document.getElementById("inputBox").addEventListener("input", generateMail);
 generateMail();
+/* Auto-click LAST ROW + button when paste happens anywhere */
+document.addEventListener("paste", function (e) {
+    const target = e.target;
+
+    // Only trigger when pasting into "Applied for" input
+    if (!target || target.dataset.col !== "apply") return;
+
+    setTimeout(() => {
+        const tbody = document.querySelector("#categoryTable tbody");
+        const lastRow = tbody.querySelector("tr:last-child");
+        const lastAddBtn = lastRow.querySelector(".addBtn");
+
+        if (lastAddBtn) lastAddBtn.click();
+    }, 10);
+});
 
 </script>
 
